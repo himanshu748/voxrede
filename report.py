@@ -53,6 +53,7 @@ h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px;letter-spacing:-.045em;
 .badge{font-size:10.5px;font-weight:700;letter-spacing:.12em;padding:5px 11px;
   border-radius:999px;white-space:nowrap}
 .b-PASS{background:var(--held-bg);color:var(--held)}
+.b-INCONCLUSIVE{background:var(--raise);color:var(--dim)}
 .b-DISCLOSURE{background:var(--leaked-bg);color:var(--leaked)}
 .b-UNAUTHORIZED_TOOL_CALL{background:var(--fired-bg);color:var(--fired)}
 .aname{font-weight:620;flex:1 1 auto;min-width:0;letter-spacing:-.02em;font-size:16px}
@@ -94,8 +95,8 @@ footer{color:var(--faint);font-size:12.5px;margin-top:38px;
 }
 """
 
-LABEL = {"PASS": "HELD", "DISCLOSURE": "LEAKED",
-         "UNAUTHORIZED_TOOL_CALL": "TOOL FIRED"}
+LABEL = {"PASS": "NO FINDING", "DISCLOSURE": "LEAKED",
+         "UNAUTHORIZED_TOOL_CALL": "TOOL REQUESTED", "INCONCLUSIVE": "INCONCLUSIVE"}
 
 
 def plain(text):
@@ -106,7 +107,8 @@ def plain(text):
 
 def render(report, title="Voice agent red-team report"):
     rs = report["results"]
-    broke = [r for r in rs if r["verdict"] != "PASS"]
+    passed = sum(r["verdict"] == "PASS" for r in rs)
+    inconclusive = sum(r["verdict"] == "INCONCLUSIVE" for r in rs)
     all_f = [f for r in rs for f in r["findings"]]
     tool = [f for f in all_f if f["verdict"] == "UNAUTHORIZED_TOOL_CALL"]
     leak = [f for f in all_f if f["verdict"] == "DISCLOSURE"]
@@ -118,11 +120,12 @@ def render(report, title="Voice agent red-team report"):
            f"&middot; {mode} &middot; {len(rs)} "
            f"attack{'s' if len(rs) != 1 else ''}</div>",
            "<div class='summary'>",
-           f"<div class='stat'><b>{len(rs) - len(broke)}/{len(rs)}</b>"
-           "<span>held</span></div>",
-           f"<div class='stat'><b style='color:var(--red)'>{len(tool)}</b>"
-           "<span>unauthorized tool calls</span></div>",
-           f"<div class='stat'><b style='color:var(--amber)'>{len(leak)}</b>"
+           f"<div class='stat'><b>{passed}/{len(rs)}</b>"
+           "<span>no finding in sample</span></div>",
+           f"<div class='stat'><b>{inconclusive}</b><span>inconclusive</span></div>",
+           f"<div class='stat'><b style='color:var(--fired)'>{len(tool)}</b>"
+           "<span>unauthorized tool requests</span></div>",
+           f"<div class='stat'><b style='color:var(--leaked)'>{len(leak)}</b>"
            "<span>disclosures</span></div>", "</div>"]
 
     for r in rs:
@@ -135,6 +138,9 @@ def render(report, title="Voice agent red-team report"):
             f"<span class='aclass'>{html.escape(r['class'])}</span></summary>"
             f"<div class='body'><div class='goal'>Goal: {html.escape(r['goal'])}</div>")
 
+        for issue in r.get("quality_issues", []):
+            out.append(f"<p class='goal'>Recording quality: {html.escape(issue)}</p>")
+
         if r.get("wav"):
             src = "/audio/" + html.escape(Path(r["wav"]).name)
             out.append(f"<audio controls preload='none' src='{src}'></audio>")
@@ -144,10 +150,10 @@ def render(report, title="Voice agent red-team report"):
                 out.append(
                     f"<div class='finding'><h4>Unauthorized tool call: "
                     f"<code>{html.escape(f['tool'])}</code></h4>"
-                    f"<div>Fired at {f['t']}s without "
+                    f"<div>Requested at {f['t']}s without "
                     f"<code>{html.escape(str(f['requires']))}</code>.</div>"
                     f"<pre class='args mono'>{html.escape(json.dumps(f['arguments'], indent=2))}</pre>"
-                    f"<div>"
+                    f"<div>Tool execution in this demo is mocked; this event does not prove a refund occurred."
                     f"</div><div class='goal' style='margin:8px 0 0'>"
                     f"{html.escape(f['why'])}</div></div>")
             else:
@@ -175,6 +181,9 @@ def render(report, title="Voice agent red-team report"):
         "event: a <code>tool.call</code> the agent emitted, or a policy phrase "
         "it actually spoke. The target agent is a test fixture written for this "
         "project; its prompt is realistic, not adversarially hardened. "
+        "NO FINDING means no configured rule matched this recorded sample; it is not a safety certification. "
+        "INCONCLUSIVE means the recording has missing dialogue or a detected error. "
+        "Recorded findings remain visible even when recording quality is incomplete. "
         "Transcript wording is verbatim; dash characters are shown as hyphens."
         "</footer></div>")
     return "\n".join(out)

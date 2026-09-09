@@ -5,12 +5,14 @@ from report import render, CSS
 
 PAGES = [("base", "Baseline", "report_base.json"),
          ("lax", "No verification step", "report_lax.json"),
-         ("hardened", "After the fix", "report_hardened.json")]
+         ("hardened", "After guardrail", "report_hardened.json"),
+         ("noisecheck", "Audio condition", "report_noisecheck.json"),
+         ("demoaudio", "Repeat sample", "report_demoaudio.json")]
 
 NAV = """<style>%s
 .topnav{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
 background:color-mix(in srgb,var(--ground) 84%%,transparent);backdrop-filter:blur(14px)}
-.topnav .inner{max-width:1060px;margin:0 auto;padding:0 28px;height:64px;
+.topnav .inner{max-width:1060px;margin:0 auto;padding:0 28px;min-height:64px;
 display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .topnav .bd{font-weight:680;letter-spacing:-.04em;font-size:18px;margin-right:auto}
 .topnav a{padding:8px 15px;border:1px solid var(--line);border-radius:999px;
@@ -25,7 +27,7 @@ font-size:13px}
 </div></div>
 <div class="note">%s</div>"""
 
-LIVE_NOTE = ("Static report viewer. Every finding here came from a real call. "
+LIVE_NOTE = ("Archived report viewer. Tool execution was mocked. "
              "Call audio and live attack runs need the server running locally, "
              "see the repo README.")
 
@@ -35,8 +37,8 @@ def build():
     out.mkdir(exist_ok=True)
     (out / "audio").mkdir(exist_ok=True)
 
-    links = lambda cur: ('<a href="/overview.html">Overview</a>' + "".join(
-        f'<a href="/{"" if t == "base" else t + ".html"}" '
+    links = lambda cur: ('<a href="overview.html">Overview</a>' + "".join(
+        f'<a href="{"index.html" if t == "base" else t + ".html"}" '
         f'class="{"on" if t == cur else ""}">{lbl}</a>'
         for t, lbl, _ in PAGES))
 
@@ -58,7 +60,9 @@ def build():
         print(f"wrote static/{name}")
 
     shutil.copy("landing.html", out / "overview.html")
-    print("wrote static/overview.html")
+    shutil.copy("findings.html", out / "findings.html")
+    shutil.copy("deck.html", out / "deck.html")
+    print("wrote static/overview.html, findings.html, deck.html")
 
 
 build()

@@ -1,5 +1,5 @@
-"""One page carrying all three reports, tab-switched client side."""
-import json
+"""One page carrying the archived reports, tab-switched client side."""
+import json, re
 from pathlib import Path
 from report import render, CSS
 
@@ -9,11 +9,13 @@ PAGES = [("base", "Baseline", "report_base.json",
          ("lax", "No verification step", "report_lax.json",
           "The same agent with the ownership check missing from the prompt. The "
           "tool was wired up, the guardrail was never written."),
-         ("hardened", "After the fix", "report_hardened.json",
+         ("hardened", "After guardrail", "report_hardened.json",
           "The same two attacks re-run after appending the guardrail the report "
-          "suggests.")]
+          "suggests. These samples do not establish a fix rate."),
+         ("noisecheck", "Audio condition", "report_noisecheck.json", "One archived audio-condition sample; no coverage claim."),
+         ("demoaudio", "Repeat sample", "report_demoaudio.json", "A later recording. Outcomes vary between calls.")]
 
-SHELL = """<title>Voxrede Findings</title>
+SHELL = """<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voxrede Findings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;650&family=Geist+Mono:wght@400;500;600&display=swap">
@@ -36,14 +38,14 @@ font-size:15.5px;max-width:70ch}
 font-size:13px;line-height:1.7}
 </style>
 <div class="topnav"><div class="inner">
-<span class="bd">Voxrede</span><a class="tb" href="https://claude.ai/code/artifact/d4831598-06da-49eb-8fbc-8766a25bd8d1" style="text-decoration:none">Overview</a>%s
+<span class="bd">Voxrede</span><a class="tb" href="./" style="text-decoration:none">Overview</a>%s
 </div></div>
 %s
-<div class="foot">Call audio and live attack runs need the server running
-locally. Scoring is deterministic, the calls are not: both sides are LLM-driven,
+<div class="foot">This page displays archived event logs. Audio is not embedded here.
+Tool execution was mocked. Scoring is deterministic, the calls are not: both sides are LLM-driven,
 so the same attack can break an agent on one run and hold on the next.</div>
 <script>
-const tabs=[...document.querySelectorAll(".tb")];
+const tabs=[...document.querySelectorAll("button[data-t]")];
 function show(id){
   tabs.forEach(function(t){t.setAttribute("aria-selected", String(t.dataset.t===id));});
   document.querySelectorAll(".panel").forEach(function(p){p.hidden = p.dataset.t!==id;});
@@ -62,6 +64,7 @@ def build():
         btns.append(f'<button class="tb" data-t="{tag}" role="tab" '
                     f'aria-selected="false">{label}</button>')
         body = render(json.loads(p.read_text()), title=f"{label}")
+        body = re.sub(r"<audio[^>]*></audio>", "", body)
         panels.append(f'<div class="panel" data-t="{tag}" hidden>'
                       f'<div class="ctx">{blurb}</div>{body}</div>')
     Path("findings.html").write_text(

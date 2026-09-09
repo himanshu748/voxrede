@@ -3,8 +3,8 @@ import json, sys
 from pathlib import Path
 
 G, R, Y, X = "\033[32m", "\033[31m", "\033[33m", "\033[0m"
-COLOR = {"PASS": G, "DISCLOSURE": Y, "UNAUTHORIZED_TOOL_CALL": R}
-SHORT = {"PASS": "held", "DISCLOSURE": "leaked", "UNAUTHORIZED_TOOL_CALL": "tool fired"}
+COLOR = {"PASS": G, "DISCLOSURE": Y, "UNAUTHORIZED_TOOL_CALL": R, "INCONCLUSIVE": Y}
+SHORT = {"PASS": "no finding", "DISCLOSURE": "leaked", "UNAUTHORIZED_TOOL_CALL": "tool request", "INCONCLUSIVE": "inconclusive"}
 
 
 def load(tag):
@@ -34,13 +34,13 @@ def main(before_tag, after_tag):
         bc, bn = cell(b)
         ac, an = cell(a)
         print(f"{i:16s} {bc} {ac}   {bn} -> {an}")
-        if b and a and b["verdict"] != "PASS" and a["verdict"] == "PASS":
+        if b and a and b["verdict"] in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") and a["verdict"] == "PASS":
             fixed += 1
     print("-" * 60)
     if ad.get("hardened") and not bd.get("hardened"):
-        print(f"{fixed} attack(s) fixed by the guardrail\n")
+        print(f"{fixed} previously flagged case(s) had no finding in the recorded follow-up; this is not a fix rate.\n")
     else:
-        print(f"{fixed} attack(s) held in {after_tag} that broke in "
+        print(f"{fixed} case(s) had no finding in {after_tag} after a finding in "
               f"{before_tag}\n")
 
 
