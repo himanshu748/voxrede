@@ -87,6 +87,12 @@ Anything not yet run is marked NOT DONE.
    overflow on any of them, no horizontal overflow, print rules paginate one
    slide per page for PDF export.
 
+27. **Repeat run for reproducibility and demo audio.** Re-ran 01 and 05
+   against the unchanged baseline target with audio capture on. 01 held this
+   time; 05 disclosed again with 5 findings instead of 4. Both wavs written.
+   This is the second independent observation of run-to-run variance, and the
+   first measurement of which findings reproduce.
+
 ## Run-to-run variance (important)
 
 Scoring is deterministic: the same event log always produces the same verdict.
