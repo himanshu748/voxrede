@@ -98,6 +98,12 @@ LABEL = {"PASS": "HELD", "DISCLOSURE": "LEAKED",
          "UNAUTHORIZED_TOOL_CALL": "TOOL FIRED"}
 
 
+def plain(text):
+    """Render dashes as hyphens. Wording is untouched; the stored logs keep
+    whatever the transcription produced."""
+    return text.replace("\u2014", "-").replace("\u2013", "-")
+
+
 def render(report, title="Voice agent red-team report"):
     rs = report["results"]
     broke = [r for r in rs if r["verdict"] != "PASS"]
@@ -161,14 +167,15 @@ def render(report, title="Voice agent red-team report"):
             out.append(
                 f"<div class='{cls}'><div class='t'>{turn['t']:.0f}s</div>"
                 f"<div class='who {who}'>{who}</div>"
-                f"<div>{html.escape(turn['text'])}</div></div>")
+                f"<div>{html.escape(plain(turn['text']))}</div></div>")
         out.append("</div></details>")
 
     out.append(
         "<footer>Verdicts are deterministic. Every finding traces to a logged "
         "event: a <code>tool.call</code> the agent emitted, or a policy phrase "
         "it actually spoke. The target agent is a test fixture written for this "
-        "project; its prompt is realistic, not adversarially hardened."
+        "project; its prompt is realistic, not adversarially hardened. "
+        "Transcript wording is verbatim; dash characters are shown as hyphens."
         "</footer></div>")
     return "\n".join(out)
 
