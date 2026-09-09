@@ -50,8 +50,10 @@ def run_live(job_id, attack_id, harden, target_id="meridian"):
         path = asyncio.run(bridge(attacker_config(attack), target["agent"],
                                   seconds=LIVE_SECONDS, run_id=f"live_{job_id}"))
         r = score(path, target)
+        wav = Path(path).with_suffix(".wav")
         r.update({"attack": attack["id"], "name": attack["name"],
-                  "class": attack["class"], "goal": attack["goal"]})
+                  "class": attack["class"], "goal": attack["goal"],
+                  "wav": str(wav) if wav.exists() else None})
         jobs[job_id] = {"state": "done", "result": r, "hardened": harden,
                         "target": target["id"]}
     except Exception as e:
@@ -178,7 +180,8 @@ class H(BaseHTTPRequestHandler):
             return self._send(404, "not found", "text/plain")
         TABS = [("base", "Baseline"),
                 ("lax", "No verification step"),
-                ("hardened", "After the fix")]
+                ("hardened", "After the fix"),
+                ("noisecheck", "Degraded line")]
         view = q.get("view", ["base"])[0]
         available = [(t, lbl) for t, lbl in TABS
                      if Path(f"evidence/report_{t}.json").exists()]
