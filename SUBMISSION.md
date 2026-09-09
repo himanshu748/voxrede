@@ -38,6 +38,9 @@ Appending the guardrail the report suggests and re-running both broken attacks:
 
 ## Links
 Code: https://github.com/himanshu748/voxrede
+Live pages: https://himanshu748.github.io/voxrede/
+Deck: https://himanshu748.github.io/voxrede/deck.html
+Findings: https://himanshu748.github.io/voxrede/findings.html
 Overview page: https://claude.ai/code/artifact/d4831598-06da-49eb-8fbc-8766a25bd8d1
 Full findings, all three reports: https://claude.ai/code/artifact/9c5abb8c-b989-448e-bd3d-ef862e8e508f
 
