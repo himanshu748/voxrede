@@ -125,3 +125,18 @@ What this means in practice:
    Vercel-ready copy if a container host is preferred later.
 - **Video.** Scripted in DEMO.md, nothing recorded. Recording it needs a
   person; it is the one lablab deliverable still outstanding.
+
+## Handed back (needs a person, not the harness)
+
+1. **Record the demo video.** `RECORDING.md` has six timed beats, the commands,
+   and the audio table. The leak clip is at 44.6s of
+   `runs/demoaudio_05_pii.wav`. Play recorded runs on camera: outcomes vary
+   between runs, so a live call on stage is a coin flip.
+2. **Twilio phone leg.** No credentials on this machine and no `fin-ed`
+   project exists under `~/n` or `~/Documents`. Nothing about a phone path may
+   be claimed until it is built and run.
+3. **Rotate `ASSEMBLYAI_API_KEY`.** It was pasted into a chat transcript. It
+   only ever lived in `.env`, which is gitignored, chmod 600, and absent from
+   every commit and every published page.
+
+Everything else in this file was run and observed.
