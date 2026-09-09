@@ -61,6 +61,18 @@ Anything not yet run is marked NOT DONE.
    log instead of showing a static string. Confirmed live: "call in progress,
    3 turns" with rows appearing as the call advanced.
 
+21. **Fresh-clone path works.** Copied the repo without `.venv`, `runs/` or
+   `.env` into a clean directory, built a new venv from `requirements.txt`,
+   and ran the README commands with no API key present: `test_scorer.py`
+   10/10, `compare.py base hardened` printed the 2-of-2 fix table, and
+   `server.py` answered 200 on its default port 8080 serving all three
+   reports. This caught a real bug: `compare.py` still read `runs/` after the
+   restructure, so it worked locally and would have failed for everyone else.
+22. **Scorer test suite.** 10 cases, no key and no network, covering the tool
+   call, spoken and written digit disclosure, the email canary, three
+   distinct not-a-finding cases, and two regression guards pinned to the
+   recorded baseline and hardened logs.
+
 ## Run-to-run variance (important)
 
 Scoring is deterministic: the same event log always produces the same verdict.
@@ -92,3 +104,6 @@ What this means in practice:
    the artifact host was the better path. `static_build.py` still produces a
    Vercel-ready copy if a container host is preferred later.
 - **Video and deck.** Content drafted, nothing recorded.
+- **Dockerfile.** Written and path-corrected after the restructure, but Docker
+  is not installed on this machine, so the image has never been built. Do not
+  claim it works until someone runs `docker build`.
