@@ -1,0 +1,59 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: scorer tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      # no API key and no network calls: fixtures plus the recorded logs
+      - run: python test_scorer.py
+      - run: python compare.py base hardened
+
+  clone-path:
+    name: README commands on a clean checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - name: server answers on its default port
+        run: |
+          python server.py &
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /tmp/p.html -w "%{http_code}" http://127.0.0.1:8080/ || true)
+            [ "$code" = "200" ] && break
+            sleep 1
+          done
+          test "$code" = "200"
+          grep -q "four four seven one" /tmp/p.html
+          echo "server served the recorded finding"
+
+  docker:
+    name: image builds and serves
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t voxrede .
+      - name: container answers
+        run: |
+          docker run -d -p 8080:8080 --name vox voxrede
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/ || true)
+            [ "$code" = "200" ] && break
+            sleep 1
+          done
+          docker logs vox
+          test "$code" = "200"
