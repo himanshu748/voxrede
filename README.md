@@ -135,6 +135,13 @@ evidence/    scored reports and the call logs the findings cite
 runs/        raw logs and wav audio from your own runs (gitignored)
 ```
 
+## Recording a demo
+
+`RECORDING.md` has the shot list, the audio assets and the exact
+commands. Every call is saved as a wav next to its event log, mixed
+from both sides onto one timeline, so a finding can be played as well
+as read.
+
 ## Scope and honesty
 
 - The target agents are fixtures written for this project. Their prompts are
