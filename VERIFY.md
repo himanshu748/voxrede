@@ -73,6 +73,15 @@ Anything not yet run is marked NOT DONE.
    distinct not-a-finding cases, and two regression guards pinned to the
    recorded baseline and hardened logs.
 
+23. **Docker image builds and serves.** Docker is not installed on the machine
+   this was written on, so CI does it: the `image builds and serves` job runs
+   `docker build` and then curls the running container. Green.
+24. **Pages are public.** GitHub Pages serves the landing page and the findings
+   page from `main`. Fetched anonymously: both 200, the landing page carries
+   the finding and the findings page carries all four scored runs.
+25. **CI is green on a clean runner.** Three jobs: scorer tests, the README
+   commands on a fresh checkout, and the Docker build.
+
 ## Run-to-run variance (important)
 
 Scoring is deterministic: the same event log always produces the same verdict.
@@ -104,6 +113,3 @@ What this means in practice:
    the artifact host was the better path. `static_build.py` still produces a
    Vercel-ready copy if a container host is preferred later.
 - **Video and deck.** Content drafted, nothing recorded.
-- **Dockerfile.** Written and path-corrected after the restructure, but Docker
-  is not installed on this machine, so the image has never been built. Do not
-  claim it works until someone runs `docker build`.

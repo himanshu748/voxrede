@@ -1,5 +1,7 @@
 # Voxrede
 
+[![ci](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml)
+
 Point it at a voice agent. It calls the agent as a hostile caller, then tells
 you what leaked and which tools fired without authorization.
 
