@@ -332,6 +332,7 @@ def build():
   <a class="nl" href="#how">How it works</a>
   <a class="nl" href="#attacks">Attacks</a>
   <a class="nl" href="#scope">Scope</a>
+  <a class="nl" href="https://github.com/himanshu748/voxrede">GitHub</a>
 </div></nav>
 
 <header class="wrap hero">
@@ -342,7 +343,7 @@ def build():
       reports what leaked and which tools fired without authorization.</p>
     <div class="cta">
       <a class="btn primary" href="#finding">Read the finding</a>
-      <a class="btn" href="#how">How it works</a>
+      <a class="btn" href="https://github.com/himanshu748/voxrede">Get the code</a>
       <a class="btn" href="https://claude.ai/code/artifact/9c5abb8c-b989-448e-bd3d-ef862e8e508f">Full reports</a>
     </div>
   </div>
@@ -475,7 +476,7 @@ def build():
 </div></section>
 
 <footer><div class="wrap">
-  <span>Voxrede</span>
+  <span><a href="https://github.com/himanshu748/voxrede">github.com/himanshu748/voxrede</a></span>
   <span>Built on the AssemblyAI Voice Agent API</span>
 </div></footer>
 
