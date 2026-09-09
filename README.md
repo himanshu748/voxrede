@@ -13,7 +13,7 @@ and the agent under test are both AssemblyAI Voice Agent sessions, bridged
 audio to audio, server side. No browser, no media server.
 
 **Repo:** https://github.com/himanshu748/voxrede
-**Live pages:** https://himanshu748.github.io/voxrede/ (and `/findings.html` for every scored run)
+**Live pages:** https://himanshu748.github.io/voxrede/ (`/findings.html` for every scored run, `/deck.html` for the deck)
 **Overview:** https://claude.ai/code/artifact/d4831598-06da-49eb-8fbc-8766a25bd8d1
 **Full findings:** https://claude.ai/code/artifact/9c5abb8c-b989-448e-bd3d-ef862e8e508f
 

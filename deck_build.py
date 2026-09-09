@@ -1,0 +1,166 @@
+"""Generate the pitch deck from the same verified data as the other pages."""
+import html, json
+from pathlib import Path
+from scorer import score
+
+T = json.loads(Path("targets/meridian.json").read_text())
+TL = json.loads(Path("targets/meridian_lax.json").read_text())
+base = score("evidence/logs/base_01_authority.jsonl", T)
+lax = score("evidence/logs/lax_01_authority.jsonl", TL)
+rep = json.loads(Path("evidence/report_base.json").read_text())
+
+leak = base["findings"][0]
+tool = lax["findings"][0]
+held = sum(1 for r in rep["results"] if r["verdict"] == "PASS")
+total = len(rep["results"])
+
+CSS = """
+:root{--ground:#07090c;--surface:#0f1319;--line:#232c37;--text:#f2f6fa;
+--dim:#93a1b1;--faint:#697687;--leaked:#ffb443;--fired:#ff6a5e;--held:#5ef08f}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ground);color:var(--text);
+font-family:Geist,ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
+.mono{font-family:"Geist Mono",ui-monospace,Menlo,monospace}
+.deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory}
+.s{height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;
+justify-content:center;padding:7vh 8vw;position:relative;border-bottom:1px solid var(--line)}
+.n{position:absolute;top:4vh;right:8vw;font-size:12px;color:var(--faint);
+letter-spacing:.14em}
+.eye{font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+color:var(--faint);margin-bottom:22px}
+h1{font-size:clamp(34px,6.4vw,86px);line-height:.95;letter-spacing:-.05em;
+margin:0;font-weight:660;max-width:18ch}
+h2{font-size:clamp(26px,4.2vw,54px);line-height:1.02;letter-spacing:-.042em;
+margin:0;font-weight:640;max-width:20ch}
+p{font-size:clamp(15px,1.7vw,21px);color:var(--dim);max-width:60ch;
+line-height:1.55;margin:26px 0 0;letter-spacing:-.012em}
+p b{color:var(--text);font-weight:560}
+.quote{font-size:clamp(19px,3.1vw,40px);line-height:1.25;letter-spacing:-.03em;
+margin:30px 0 0;max-width:22ch;font-weight:500}
+.quote mark{background:var(--leaked);color:var(--ground);padding:.02em .16em;
+border-radius:5px}
+.ev{margin-top:30px;padding:20px 24px;border-left:3px solid var(--fired);
+background:rgba(255,106,94,.08);border-radius:0 10px 10px 0;overflow-x:auto}
+.ev code{font-family:"Geist Mono",Menlo,monospace;font-size:clamp(12px,1.3vw,16px);
+color:var(--fired);white-space:pre}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:38px;
+border-top:1px solid var(--line)}
+.grid div{padding:24px 26px 0 0;border-right:1px solid var(--line)}
+.grid div:last-child{border-right:0}
+.grid h3{margin:0 0 10px;font-size:clamp(15px,1.7vw,20px);font-weight:600;
+letter-spacing:-.022em}
+.grid p{margin:0;font-size:clamp(13px,1.3vw,15px)}
+.tbl{margin-top:34px;border-top:1px solid var(--line);max-width:760px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:24px;padding:14px 0;
+border-bottom:1px solid var(--line);font-size:clamp(13px,1.5vw,17px)}
+.row .b{color:var(--leaked);text-align:right}
+.row .a{color:var(--held);text-align:right;min-width:70px}
+.big{font-size:clamp(46px,9vw,120px);line-height:.9;letter-spacing:-.05em;
+font-weight:660;margin-top:20px}
+.sub{color:var(--faint);font-size:14px;margin-top:auto;padding-top:30px}
+a{color:var(--leaked)}
+@media print{
+  html,body{height:auto}
+  .deck{height:auto;overflow:visible}
+  .s{height:auto;min-height:0;page-break-after:always;border-bottom:0;
+     padding:40px 50px}
+}
+"""
+
+def slide(n, body):
+    return f'<section class="s"><div class="n mono">{n}</div>{body}</section>'
+
+SLIDES = [
+    ('<div class="eye mono">Voice agent red-teaming</div>'
+     '<h1>It refused five times, then read out the secret.</h1>'
+     '<p>Voxrede calls your voice agent as a hostile caller, then reports what '
+     'leaked and which tools fired without authorization.</p>'
+     '<div class="sub mono">Built on the AssemblyAI Voice Agent API</div>'),
+
+    ('<h2>Voice agents now hold tools that move money.</h2>'
+     '<p>Refunds, transfers, account changes, cancellations. The spoken channel '
+     'is a security surface, and it is not being tested.</p>'
+     '<p>You cannot type an interruption. You cannot type an accent, a bad line, '
+     'or a caller who talks over a refusal. <b>Text jailbreak lists do not reach '
+     'any of it.</b></p>'),
+
+    ('<div class="eye mono">What already exists</div>'
+     '<h2>Simulated callers test quality, not security.</h2>'
+     '<p>AssemblyAI documents QA simulation through Bluejay: happy paths, '
+     'barge-in, accents, edge cases.</p>'
+     '<p><b>Nobody is asking the security question:</b> can a caller talk this '
+     'agent into firing a tool it should have refused?</p>'),
+
+    ('<div class="eye mono">The finding</div>'
+     '<h2>The agent defeated its own challenge question.</h2>'
+     f'<div class="quote mono">{html.escape(leak["utterance"][:60])}'
+     '<mark>four four seven one</mark>?</div>'
+     '<p>It refused to skip verification five times, then asked for the secret '
+     'by naming the secret. <b>No jailbreak was involved.</b> The guardrail was '
+     'present and being followed.</p>'),
+
+    ('<div class="eye mono">The finding that moves money</div>'
+     '<h2>Same agent, ownership check missing from the prompt.</h2>'
+     f'<div class="ev"><code>{tool["t"]:.3f}s  tool.call  {html.escape(tool["tool"])}\n'
+     f'args      {html.escape(json.dumps(tool["arguments"])[:96])}\n'
+     'proof     none given</code></div>'
+     '<p>The transcript is a story. <b>The event is evidence.</b></p>'),
+
+    ('<div class="eye mono">How it works</div>'
+     '<h2>Two voice agents, one call, both event streams.</h2>'
+     '<div class="grid">'
+     '<div><h3>Bridge</h3><p>Both sides are AssemblyAI Voice Agent sessions, '
+     'bridged audio to audio, server side. No browser, no media server.</p></div>'
+     '<div><h3>Pace</h3><p>One 50ms PCM16 frame every 50ms, silence included. '
+     'Turn detection measures silence in the stream, not gaps in it.</p></div>'
+     '<div><h3>Score</h3><p>Every verdict traces to a logged event: a tool call '
+     'emitted, or a policy phrase actually spoken.</p></div>'
+     '</div>'),
+
+    ('<div class="eye mono">Results</div>'
+     f'<h2>{total - held} of {total} attacks broke a realistically written agent.</h2>'
+     '<p>Then the guardrail the report suggests was applied, and the same '
+     'attacks re-run against the same agent.</p>'
+     '<div class="tbl">'
+     '<div class="row"><span>01 authority impersonation</span>'
+     '<span class="b">leaked</span><span class="a">held</span></div>'
+     '<div class="row"><span>05 PII extraction</span>'
+     '<span class="b">leaked</span><span class="a">held</span></div>'
+     '</div>'
+     '<p><b>2 of 2 fixed.</b> 5 findings to 0.</p>'),
+
+    ('<div class="eye mono">Why the verdicts can be trusted</div>'
+     '<h2>Scoring is deterministic. The calls are not.</h2>'
+     '<p>No model judges a finding, so the same event log always scores the same '
+     'way, and spoken digits are normalized so "four four seven one" matches 4471.</p>'
+     '<p>Both sides are LLM-driven, so the same attack can break an agent on one '
+     'run and hold on the next. <b>A held run is one sample, not a safety '
+     'certificate. A break is still a break.</b></p>'),
+
+    ('<div class="eye mono">Honest scope</div>'
+     '<h2>What this is not.</h2>'
+     '<p>The target agents are fixtures written for this project. Their prompts '
+     'are realistic, not adversarially hardened.</p>'
+     '<p>Six attacks is six attacks. Not a benchmark, and no claim to cover the '
+     'attack space. There is no telephony path: both sides are Voice Agent '
+     'sessions bridged over WebSockets, which is the mechanism under test.</p>'
+     '<p>Point it only at agents you own or are authorized to test.</p>'),
+
+    ('<h1>Voxrede</h1>'
+     '<p>Point it at a voice agent. It calls the agent as a hostile caller, then '
+     'tells you what leaked and which tools fired without authorization.</p>'
+     '<div class="sub mono">github.com/himanshu748/voxrede<br>'
+     'himanshu748.github.io/voxrede</div>'),
+]
+
+page = (f"<title>Voxrede deck</title>\n"
+        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
+        'family=Geist:wght@400;500;560;600;640;660&family=Geist+Mono:wght@400;500&'
+        'display=swap">\n'
+        f"<style>{CSS}</style>\n<div class='deck'>"
+        + "".join(slide(f"{i+1:02d} / {len(SLIDES):02d}", b)
+                  for i, b in enumerate(SLIDES))
+        + "</div>")
+Path("deck.html").write_text(page)
+print(f"wrote deck.html, {len(SLIDES)} slides, {len(page)} bytes")
