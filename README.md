@@ -5,12 +5,20 @@
 Point it at a voice agent. It calls the agent as a hostile caller, then tells
 you what leaked and which tools fired without authorization.
 
-Voice agents now hold tools that move money, and the spoken channel is a
-security surface nobody tests. You cannot type an interruption, an accent, a
-degraded line, or a caller who talks over a refusal, so text jailbreak lists
-miss the whole class. Voxrede runs those attacks as real calls: the attacker
-and the agent under test are both AssemblyAI Voice Agent sessions, bridged
-audio to audio, server side. No browser, no media server.
+Voice agents now hold tools that move money, and the spoken channel carries
+failure modes text testing cannot reach. You cannot type an interruption, an
+accent, a degraded line, or a caller who talks over a refusal. Voxrede runs
+those as real calls: the attacker and the agent under test are both AssemblyAI
+Voice Agent sessions, bridged audio to audio, server side. No browser, no
+media server.
+
+Voice-agent security testing is not a new idea. Bluejay lists red teaming
+alongside its simulation product, and integrates with the same Voice Agent
+API. What Voxrede does differently is narrow and checkable: it is
+self-hosted with no third party in the call path, each target declares the
+policy it must hold, and every verdict links to the logged event that
+produced it, so a finding can be re-derived from the recording rather than
+taken on trust.
 
 **Repo:** https://github.com/himanshu748/voxrede
 **Live pages:** https://himanshu748.github.io/voxrede/ (`/findings.html` for every scored run, `/deck.html` for the deck)

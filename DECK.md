@@ -9,18 +9,20 @@ Built on the AssemblyAI Voice Agent API.
 
 ## 2. The problem
 Voice agents now hold tools that move money: refunds, transfers, account
-changes, appointment cancellations. The spoken channel is a security surface,
-and nobody tests it.
+changes, appointment cancellations. The spoken channel carries failure modes
+that text testing cannot reach.
 
 You cannot type an interruption. You cannot type an accent, a bad line, or a
 caller who talks over a refusal. Text jailbreak lists do not reach any of it.
 
 ## 3. What exists today
-AssemblyAI documents simulated-caller QA through Bluejay: happy paths, barge-in,
-accents, edge cases. That is quality assurance.
+Voice-agent security testing already exists. Bluejay lists red teaming
+alongside simulation, and integrates with the same Voice Agent API.
 
-Nobody is asking the security question: can a caller talk this agent into
-firing a tool it should have refused?
+Voxrede's focus is narrower: self-hosted with no third party in the call path,
+a policy declared per target, and every verdict linked to the logged event
+that produced it. That is a product focus, not a claim to have invented the
+category.
 
 ## 4. What Voxrede does
 Point it at an agent. It runs a suite of hostile calls and returns a report:
