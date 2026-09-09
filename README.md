@@ -26,6 +26,7 @@ needed, nothing is called:
 python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
 ./.venv/bin/python test_scorer.py
 ./.venv/bin/python compare.py base hardened
+./.venv/bin/python repro.py base base2 demoaudio
 ./.venv/bin/python server.py
 ```
 
