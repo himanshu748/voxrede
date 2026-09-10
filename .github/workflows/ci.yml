@@ -18,6 +18,7 @@ jobs:
       - run: pip install -r requirements.txt
       # no API key and no network calls: fixtures plus the recorded logs
       - run: python test_scorer.py
+      - run: python -m unittest test_report_edges -v
       - run: python compare.py base hardened
 
   clone-path:

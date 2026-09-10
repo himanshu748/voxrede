@@ -1,5 +1,5 @@
 """Render a suite report as a standalone HTML page."""
-import html, json, sys
+import html, json, math, sys
 from pathlib import Path
 
 CSS = """
@@ -105,7 +105,72 @@ def plain(text):
     return text.replace("\u2014", "-").replace("\u2013", "-")
 
 
+def validate_report(report, *, require_case_ids=False):
+    """Reject malformed display data instead of rendering a misleading pass."""
+    def timestamp(value):
+        try:
+            return type(value) in (int, float) and math.isfinite(value) and value >= 0
+        except OverflowError:
+            return False
+
+    if (not isinstance(report, dict) or not isinstance(report.get("target"), str)
+            or not report["target"].strip()):
+        return "Missing or invalid report target."
+    rows = report.get("results")
+    if not isinstance(rows, list) or not rows:
+        return "No recorded results are available."
+    case_ids = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            return "Invalid result record."
+        if require_case_ids:
+            case_id = row.get("attack")
+            if not isinstance(case_id, str) or not case_id.strip() or case_id in case_ids:
+                return "Missing or duplicate case identifier."
+            case_ids.add(case_id)
+        if not isinstance(row.get("verdict"), str) or row["verdict"] not in LABEL:
+            return "Unknown or missing verdict."
+        if any(not isinstance(row.get(k), str) for k in ("name", "class", "goal")):
+            return "Missing or invalid result description."
+        findings, timeline = row.get("findings"), row.get("timeline")
+        if not isinstance(findings, list) or not isinstance(timeline, list):
+            return "Missing or invalid findings or timeline."
+        issues = row.get("quality_issues", [])
+        if not isinstance(issues, list) or any(not isinstance(x, str) for x in issues):
+            return "Invalid recording-quality information."
+        if row.get("wav") is not None and not isinstance(row["wav"], str):
+            return "Invalid recording reference."
+        for finding in findings:
+            if not isinstance(finding, dict) or not timestamp(finding.get("t")):
+                return "Invalid finding timestamp."
+            kind = finding.get("verdict")
+            required = ("tool", "why") if kind == "UNAUTHORIZED_TOOL_CALL" else ("label", "matched")
+            if kind not in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") or any(
+                    not isinstance(finding.get(k), str) for k in required):
+                return "Invalid finding details."
+            if kind == "UNAUTHORIZED_TOOL_CALL" and not {"arguments", "requires"}.issubset(finding):
+                return "Incomplete tool-request evidence."
+        if (row["verdict"] == "PASS" and (findings or issues)) or (
+                row["verdict"] in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") and not findings):
+            return "Verdict conflicts with its recorded evidence."
+        for turn in timeline:
+            if (not isinstance(turn, dict) or not timestamp(turn.get("t"))
+                    or turn.get("who") not in ("caller", "agent", "tool")
+                    or not isinstance(turn.get("text"), str)):
+                return "Invalid timeline entry."
+        if row["verdict"] == "PASS" and not {"caller", "agent"}.issubset(
+                {turn["who"] for turn in timeline if turn["text"].strip()}):
+            return "No-finding result is missing two-sided dialogue."
+    return None
+
+
 def render(report, title="Voice agent red-team report"):
+    problem = validate_report(report)
+    if problem:
+        return (f"<style>{CSS}</style><div class='wrap'><h1>{html.escape(title)}</h1>"
+                "<p class='badge b-INCONCLUSIVE'>INCONCLUSIVE</p>"
+                f"<p>{html.escape(problem)}</p>"
+                "<p>The source report needs review; no pass rate is shown.</p></div>")
     rs = report["results"]
     passed = sum(r["verdict"] == "PASS" for r in rs)
     inconclusive = sum(r["verdict"] == "INCONCLUSIVE" for r in rs)

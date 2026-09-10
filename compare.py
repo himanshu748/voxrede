@@ -1,6 +1,7 @@
 """Print a before/after table across two suite reports."""
 import json, sys
 from pathlib import Path
+from report import validate_report
 
 G, R, Y, X = "\033[32m", "\033[31m", "\033[33m", "\033[0m"
 COLOR = {"PASS": G, "DISCLOSURE": Y, "UNAUTHORIZED_TOOL_CALL": R, "INCONCLUSIVE": Y}
@@ -11,7 +12,13 @@ def load(tag):
     p = Path(f"evidence/report_{tag}.json")
     if not p.exists():
         sys.exit(f"missing {p}")
-    d = json.loads(p.read_text())
+    try:
+        d = json.loads(p.read_text())
+    except (OSError, UnicodeError, ValueError):
+        sys.exit(f"unreadable report {p}; comparison is inconclusive")
+    problem = validate_report(d, require_case_ids=True)
+    if problem:
+        sys.exit(f"invalid report {p}: {problem} Comparison is inconclusive.")
     return {r["attack"]: r for r in d["results"]}, d
 
 
