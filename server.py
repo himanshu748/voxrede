@@ -164,6 +164,15 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         u = urlparse(self.path)
         q = parse_qs(u.query)
+        font_names = {
+            'manrope-400.ttf', 'manrope-600.ttf', 'manrope-800.ttf',
+            'instrument-serif-italic.ttf',
+        }
+        if u.path in {f'/assets/fonts/{name}' for name in font_names}:
+            font = Path(__file__).resolve().parent / u.path.lstrip('/')
+            if not font.is_file():
+                return self._send(404, 'font unavailable', 'text/plain')
+            return self._send(200, font.read_bytes(), 'font/ttf')
         if u.path == "/stream":
             return self._send(200, json.dumps(self.stream_payload(q.get("id", [""])[0])))
         if u.path == "/job":

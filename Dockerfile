@@ -3,6 +3,8 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY bridge.py scorer.py report.py run_suite.py server.py compare.py ./
+COPY design.css ./
+COPY assets/fonts/ assets/fonts/
 COPY attacks/ attacks/
 COPY targets/ targets/
 COPY evidence/ evidence/

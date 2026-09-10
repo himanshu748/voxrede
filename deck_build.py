@@ -15,12 +15,15 @@ held = sum(1 for r in rep["results"] if r["verdict"] == "PASS")
 total = len(rep["results"])
 
 CSS = """
-:root{--ground:#07090c;--surface:#0f1319;--line:#232c37;--text:#f2f6fa;
---dim:#93a1b1;--faint:#697687;--leaked:#ffb443;--fired:#ff6a5e;--held:#5ef08f}
+@font-face{font-family:Manrope;src:url('assets/fonts/manrope-400.ttf');font-weight:400}
+@font-face{font-family:Manrope;src:url('assets/fonts/manrope-600.ttf');font-weight:600}
+@font-face{font-family:'Instrument Serif';src:url('assets/fonts/instrument-serif-italic.ttf');font-style:italic}
+:root{--ground:#f3f0e8;--surface:#eae6dc;--line:#cbc4b7;--text:#2b2132;
+--dim:#665c67;--faint:#726673;--leaked:#a13c28;--fired:#a13c28;--held:#386047}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--ground);color:var(--text);
-font-family:Geist,ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
-.mono{font-family:"Geist Mono",ui-monospace,Menlo,monospace}
+font-family:Manrope,ui-sans-serif,-apple-system,"Segoe UI",sans-serif}
+.mono{font-family:ui-monospace,Menlo,monospace}
 .deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory}
 .s{height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;
 justify-content:center;padding:7vh 8vw;position:relative;border-bottom:1px solid var(--line)}
@@ -28,10 +31,10 @@ justify-content:center;padding:7vh 8vw;position:relative;border-bottom:1px solid
 letter-spacing:.14em}
 .eye{font-size:12px;letter-spacing:.2em;text-transform:uppercase;
 color:var(--faint);margin-bottom:22px}
-h1{font-size:clamp(34px,6.4vw,86px);line-height:.95;letter-spacing:-.05em;
-margin:0;font-weight:660;max-width:18ch}
+h1{font-size:clamp(34px,6.4vw,86px);line-height:1.05;letter-spacing:-.05em;
+margin:0;font-weight:600;max-width:18ch}
 h2{font-size:clamp(26px,4.2vw,54px);line-height:1.02;letter-spacing:-.042em;
-margin:0;font-weight:640;max-width:20ch}
+margin:0;font-weight:600;max-width:20ch}
 p{font-size:clamp(15px,1.7vw,21px);color:var(--dim);max-width:60ch;
 line-height:1.55;margin:26px 0 0;letter-spacing:-.012em}
 p b{color:var(--text);font-weight:560}
@@ -41,7 +44,7 @@ margin:30px 0 0;max-width:22ch;font-weight:500}
 border-radius:5px}
 .ev{margin-top:30px;padding:20px 24px;border-left:3px solid var(--fired);
 background:rgba(255,106,94,.08);border-radius:0 10px 10px 0;overflow-x:auto}
-.ev code{font-family:"Geist Mono",Menlo,monospace;font-size:clamp(12px,1.3vw,16px);
+.ev code{font-family:Menlo,monospace;font-size:clamp(12px,1.3vw,16px);
 color:var(--fired);white-space:pre}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:38px;
 border-top:1px solid var(--line)}
@@ -56,15 +59,21 @@ border-bottom:1px solid var(--line);font-size:clamp(13px,1.5vw,17px)}
 .row .b{color:var(--leaked);text-align:right}
 .row .a{color:var(--held);text-align:right;min-width:70px}
 .big{font-size:clamp(46px,9vw,120px);line-height:.9;letter-spacing:-.05em;
-font-weight:660;margin-top:20px}
+font-weight:600;margin-top:20px}
 .sub{color:var(--faint);font-size:14px;margin-top:auto;padding-top:30px}
 a{color:var(--leaked)}
+h1 em{font-family:'Instrument Serif',serif;font-weight:400}
+.s:first-child,.s:last-child{background:#2b2132;--text:#f3f0e8;--dim:#c1b7c5;--faint:#c1b7c5;color:var(--text)}
+@page{size:13.333333in 7.5in;margin:0}
 @media print{
-  html,body{height:auto}
+  html,body{height:auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .deck{height:auto;overflow:visible}
-  .s{height:auto;min-height:0;page-break-after:always;border-bottom:0;
-     padding:40px 50px}
+  .s{height:720px;min-height:720px;break-after:page;border-bottom:0;padding:65px 90px}
+  .s:last-child{break-after:auto}
+  h1{font-size:78px}h2{font-size:52px}p{font-size:22px}
+  .n{top:35px;right:90px}.eye{font-size:13px}.sub{font-size:15px}
 }
+
 """
 
 def slide(n, body):
@@ -72,8 +81,8 @@ def slide(n, body):
 
 SLIDES = [
     ('<div class="eye mono">Voxrede</div>'
-     '<h1>It asked for proof, then read out the answer.</h1>'
-     '<p>Policy findings traced to recorded voice-agent events.</p>'
+     '<h1>Red teaming,<br><em>in plain sight.</em></h1>'
+     '<p>Inspect the policy, the recorded response, and the timestamp.<br>Voice-agent evaluation on controlled fixtures.</p>'
      '<div class="sub mono">Built on the AssemblyAI Voice Agent API</div>'),
     ('<div class="eye mono">The user</div>'
      '<h2>Support teams need evidence they can inspect.</h2>'
@@ -133,10 +142,6 @@ SLIDES = [
 page = ('<!doctype html><html lang="en"><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>Voxrede deck</title>\n'
-        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-        '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
-        'family=Geist:wght@400;500;560;600;640;660&family=Geist+Mono:wght@400;500&'
-        'display=swap">\n'
         f"<style>{CSS}</style>\n<div class='deck'>"
         + "".join(slide(f"{i+1:02d} / {len(SLIDES):02d}", b)
                   for i, b in enumerate(SLIDES))

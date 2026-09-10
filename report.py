@@ -29,9 +29,9 @@ CSS = """
 *{box-sizing:border-box}
 html,body{overflow-x:hidden}
 body{margin:0;background:var(--ground);color:var(--text);
-  font:15px/1.55 Geist,ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font:15px/1.55 Manrope,ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
   -webkit-font-smoothing:antialiased}
-.mono,code{font-family:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.mono,code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 .wrap{max-width:1060px;margin:0 auto;padding:44px 28px 90px}
 h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px;letter-spacing:-.045em;
   line-height:.98;font-weight:660}
@@ -61,7 +61,7 @@ h1{font-size:clamp(30px,5vw,52px);margin:0 0 10px;letter-spacing:-.045em;
 .body{padding:0 22px 22px;border-top:1px solid var(--line)}
 .goal{color:var(--dim);margin:16px 0 20px;font-size:14px}
 audio{width:100%;margin:0 0 18px;height:36px}
-.finding{border-left:3px solid var(--fired);background:var(--fired-bg);
+.finding{border-left:1px solid var(--fired);background:var(--fired-bg);
   padding:16px 18px;border-radius:0 10px 10px 0;margin-bottom:16px}
 .finding.d{border-color:var(--leaked);background:var(--leaked-bg)}
 .finding h4{margin:0 0 8px;font-size:14px;letter-spacing:-.015em}
@@ -83,7 +83,7 @@ audio{width:100%;margin:0 0 18px;height:36px}
   padding-right:10px;border-radius:8px}
 .turn.bad .t,.turn.bad .who{color:var(--leaked)}
 .turn.tool{background:var(--fired-bg);margin:0 -10px;padding:11px 10px;
-  border-radius:8px;font-family:"Geist Mono",ui-monospace,Menlo,monospace;
+  border-radius:8px;font-family:ui-monospace,Menlo,monospace;
   font-size:12.5px}
 .turn.tool>div:last-child{overflow-x:auto}
 .turn.tool .t,.turn.tool .who{color:var(--fired)}
@@ -94,6 +94,8 @@ footer{color:var(--faint);font-size:12.5px;margin-top:38px;
   .who{display:none}
 }
 """
+
+CSS += '\n' + (Path(__file__).resolve().parent / 'design.css').read_text()
 
 LABEL = {"PASS": "NO FINDING", "DISCLOSURE": "LEAKED",
          "UNAUTHORIZED_TOOL_CALL": "TOOL REQUESTED", "INCONCLUSIVE": "INCONCLUSIVE"}

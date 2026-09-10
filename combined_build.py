@@ -17,9 +17,6 @@ PAGES = [("base", "Baseline", "report_base.json",
          ("base2", "Second baseline", "report_base2.json", "A second baseline recording. Compare only the scenarios present in both samples.")]
 
 SHELL = """<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voxrede Findings</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;650&family=Geist+Mono:wght@400;500;600&display=swap">
 <style>%s
 .topnav{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
 background:color-mix(in srgb,var(--ground) 84%%,transparent);backdrop-filter:blur(14px)}

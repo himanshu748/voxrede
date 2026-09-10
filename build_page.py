@@ -2,6 +2,7 @@
 import html, json
 from pathlib import Path
 from scorer import score
+from judge_review import render_review
 
 T = json.load(open("targets/meridian.json"))
 TLAX = json.load(open("targets/meridian_lax.json"))
@@ -91,10 +92,12 @@ CSS = """
   --fired-bg:rgba(255,106,94,.12); --bar:#3d4b5e; --glow:rgba(255,255,255,.05);
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:86px}
 body{margin:0;background:var(--ground);color:var(--text);
-  font-family:Geist,ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-family:Manrope,ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
   font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.mono{font-family:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
   font-feature-settings:"ss01";letter-spacing:-.01em}
 .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
 h1,h2,h3{margin:0;text-wrap:balance}
@@ -130,6 +133,20 @@ nav a.nl:hover{color:var(--text)}
 .btn:active{transform:translateY(0)}
 .btn.primary{background:var(--text);color:var(--ground);border-color:var(--text)}
 .btn:focus-visible{outline:2px solid var(--leaked);outline-offset:3px}
+.review{margin-top:42px;border:1px solid var(--line);border-radius:18px;padding:28px;background:var(--surface)}
+.review-top{display:flex;justify-content:space-between;gap:22px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:22px}
+.review .eyebrow{margin-bottom:12px;color:var(--dim)}
+.review h2{font-size:22px;line-height:1.2;max-width:none;letter-spacing:-.025em}
+.review-mode,.review-source,.review-note{font-size:12px;color:var(--dim)}
+.review-step{padding:26px 0;min-height:260px;max-width:78ch;overflow-wrap:anywhere}
+.review-step h3{font-size:24px;line-height:1.25;letter-spacing:-.02em}
+.review-step p{color:var(--dim)}
+.review-step blockquote{margin:20px 0;font-size:19px;border-left:1px solid var(--leaked);padding-left:18px}
+.review-controls{display:flex;align-items:center;gap:16px;justify-content:space-between;border-top:1px solid var(--line);padding-top:20px}
+.review-controls button:disabled{opacity:.45;cursor:default}
+.review-controls span{font-size:12px;color:var(--dim)}
+.review-note{margin:22px 0 0;max-width:85ch}
+@media(max-width:640px){.review{padding:20px}.review-step{min-height:340px}.review-controls{gap:8px}.review-controls button{padding:8px 10px}}
 
 /* ---- the call replay: the hero moment ---- */
 .call{margin-top:52px;border:1px solid var(--line);border-radius:18px;
@@ -148,7 +165,7 @@ nav a.nl:hover{color:var(--text)}
 
 .track{position:relative;height:5px;background:var(--raise)}
 .play{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--text);
-  transition:width .18s linear}
+  transition:none}
 .play.hit{background:var(--leaked)}
 .ticks{position:relative;height:26px;border-bottom:1px solid var(--line)}
 .tick{position:absolute;top:9px;width:2px;height:8px;background:var(--bar);
@@ -178,8 +195,8 @@ nav a.nl:hover{color:var(--text)}
   border-top:1px solid var(--line);font-size:13.5px;color:var(--dim);flex-wrap:wrap}
 .vbadge{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
   padding:6px 12px;border-radius:999px;background:var(--leaked-bg);color:var(--leaked)}
-@media(max-width:640px){.turn{grid-template-columns:46px 1fr;gap:10px}
-  .turn .who{display:none}.stream{min-height:320px}}
+@media(max-width:640px){.turn{grid-template-columns:46px 1fr;gap:4px 10px}
+  .turn .who{grid-column:2;grid-row:1}.turn .txt{grid-column:2}.stream{min-height:320px}}
 
 /* ---- sections ---- */
 section{padding:110px 0;border-top:1px solid var(--line)}
@@ -230,7 +247,7 @@ h2{font-size:clamp(30px,5.2vw,62px);letter-spacing:-.045em;line-height:.98;
 @media(max-width:640px){.v{grid-template-columns:1fr;gap:10px}}
 
 .event{background:var(--surface);border:1px solid var(--line);
-  border-left:4px solid var(--fired);border-radius:0 16px 16px 0;
+  border-left:1px solid var(--fired);border-radius:0 16px 16px 0;
   padding:28px 30px;margin-top:44px;overflow-x:auto}
 .event .ln{font-size:14px;line-height:2;white-space:pre;color:var(--dim);margin:0}
 .event .ln b{color:var(--fired);font-weight:600}
@@ -320,14 +337,10 @@ def build():
         for r in d["replay"]])
     args = json.dumps(t["arguments"])
     page = f"""<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voxrede</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;550;600;650&family=Geist+Mono:wght@400;500;600&display=swap">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<style>{CSS}</style>
+<style>{CSS}\n{Path('design.css').read_text()}</style>
 
 <nav><div class="wrap">
-  <span class="brand">Voxrede</span>
+  <span class="brand"><svg viewBox="0 0 26 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 8v16M8 3v26M14 10v12M20 1v30M26 9v14"/></svg>Voxrede</span>
   <a class="nl" href="#finding">The finding</a>
   <a class="nl" href="#how">How it works</a>
   <a class="nl" href="#attacks">Attacks</a>
@@ -336,23 +349,27 @@ def build():
 </div></nav>
 
 <header class="wrap hero">
-  <div class="kicker mono">Voice agent red-teaming</div>
-  <h1>It asked for proof, then <em>read out the answer</em>.</h1>
+  <div class="hero-intro">
+  <h1>Red teaming,<br><em>in plain sight.</em></h1>
   <div class="row">
-    <p class="sub">Voxrede reviews recorded conversations between two AssemblyAI voice sessions,
-      tracing policy findings to transcript and tool-request events.</p>
+    <p class="sub">Voice agent red-teaming, from the conversation to the evidence.
+      See two voice sessions put a policy under pressure, then inspect the exact moment it failed.</p>
     <div class="cta">
-      <a class="btn primary" href="#finding">Read the finding</a>
+      <a class="btn primary" href="#review">Start guided review</a>
       <a class="btn" href="https://github.com/himanshu748/voxrede">Get the code</a>
       <a class="btn" href="findings.html">Full reports</a>
     </div>
   </div>
+  </div>
+
+  {render_review()}
 
   <div class="call">
     <div class="call-bar">
-      <span class="ttl mono">Authority impersonation, replayed from the log</span>
+      <span class="ttl mono">Transcript replay · 7.5× speed · audio not embedded</span>
       <span class="clock mono" id="clock">0s</span>
-      <button class="replay-btn mono" id="replay" type="button">Replay</button>
+      <button class="replay-btn mono" id="replay" type="button">Replay transcript</button>
+      <button class="replay-btn mono" id="show-finding" type="button" hidden>Show finding</button>
     </div>
     <div class="track"><div class="play" id="play"></div></div>
     <div class="ticks" id="ticks">{ticks}</div>
@@ -421,7 +438,7 @@ def build():
   </div>
 </div></section>
 
-<section><div class="wrap">
+<section id="tool-event"><div class="wrap">
   <h2>A refund was requested without proof.</h2>
   <p class="lede">This fixture omitted the ownership check from its prompt.
     The saved event records a tool request. The handler returned a mock response;
@@ -444,7 +461,7 @@ def build():
   <div class="atk">{atk}</div>
 </div></section>
 
-<section><div class="wrap">
+<section id="follow-up"><div class="wrap">
   <h2>A follow-up recording had no finding.</h2>
   <p class="lede">The archived follow-up used a stricter prompt. Two previously flagged
     scenarios had no finding in those samples. A small before-and-after comparison
@@ -483,36 +500,6 @@ def build():
 </div></footer>
 
 <script>
-/* Composed hero intro: the headline assembles, then the call plays itself.
-   One sequence, not scattered effects. Static state is already correct. */
-(function(){{
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || typeof gsap === "undefined") return;
-  const h1 = document.querySelector(".hero h1");
-  if (!h1) return;
-  // wrap words without disturbing the <em> emphasis
-  (function wrap(node){{
-    [...node.childNodes].forEach(function(n){{
-      if (n.nodeType === 3) {{
-        const frag = document.createDocumentFragment();
-        n.textContent.split(/(\\s+)/).forEach(function(tok){{
-          if (!tok.trim()) return frag.appendChild(document.createTextNode(tok));
-          const sp = document.createElement("span");
-          sp.className = "w"; sp.textContent = tok; frag.appendChild(sp);
-        }});
-        node.replaceChild(frag, n);
-      }} else if (n.nodeType === 1) {{ wrap(n); }}
-    }});
-  }})(h1);
-  const words = h1.querySelectorAll(".w");
-  gsap.timeline({{defaults:{{ease:"power3.out"}}}})
-    .from(".kicker", {{opacity:0, y:8, duration:.5}})
-    .from(words, {{opacity:0, yPercent:42, duration:.72, stagger:.035}}, "-=.2")
-    .from(".hero .sub", {{opacity:0, y:12, duration:.55}}, "-=.45")
-    .from(".hero .cta .btn", {{opacity:0, y:10, duration:.45, stagger:.07}}, "-=.35")
-    .from(".call", {{opacity:0, y:20, duration:.7}}, "-=.3");
-}})();
-
 const TURNS = {replay_json};
 const SPAN = {d["span"]:.3f};
 const stream = document.getElementById("stream");
@@ -520,6 +507,7 @@ const play = document.getElementById("play");
 const clock = document.getElementById("clock");
 const vline = document.getElementById("vline");
 const btn = document.getElementById("replay");
+const stopBtn = document.getElementById("show-finding");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const RATE = 7.5;                      // seconds of call per second of replay
 let timers = [];
@@ -536,18 +524,24 @@ function row(turn){{
 const LEAK = TURNS.findIndex(function(t){{ return t.leak; }});
 
 function settle(){{
+  timers.forEach(clearTimeout); timers = [];
+  btn.textContent = "Replay transcript";
+  stopBtn.hidden = true;
   // rest on the finding, not on the tail of the call
   const from = Math.max(0, LEAK - 2), to = Math.min(TURNS.length, LEAK + 3);
   stream.replaceChildren(...TURNS.slice(from, to).map(row));
-  play.style.width = "100%";
+  play.style.width = (TURNS[LEAK].t / SPAN * 100).toFixed(2) + "%";
   play.classList.add("hit");
-  clock.textContent = Math.round(SPAN) + "s";
+  clock.textContent = TURNS[LEAK].t.toFixed(3) + "s";
   vline.hidden = false;
 }}
 
 function run(){{
   timers.forEach(clearTimeout); timers = [];
   if (reduce) return settle();
+  btn.textContent = "Restart replay";
+  stopBtn.hidden = false;
+  clock.textContent = "0s";
   stream.replaceChildren();
   vline.hidden = true;
   play.classList.remove("hit");
@@ -576,8 +570,9 @@ function run(){{
 }}
 
 btn.addEventListener("click", run);
+stopBtn.addEventListener("click", settle);
+document.addEventListener("visibilitychange", function(){{ if (document.hidden) settle(); }});
 settle();                               // page is readable at rest
-if (!reduce) setTimeout(run, 1500);     // after the intro sequence lands
 </script>
 """
     Path("landing.html").write_text(page)

@@ -10,3 +10,6 @@ runs/
 static/
 *.wav
 *.mp3
+
+# Local design exploration notes
+.impeccable/

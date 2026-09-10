@@ -37,6 +37,7 @@ def build():
     out = Path("static")
     out.mkdir(exist_ok=True)
     (out / "audio").mkdir(exist_ok=True)
+    shutil.copytree('assets', out / 'assets', dirs_exist_ok=True)
 
     links = lambda cur: ('<a href="overview.html">Overview</a>' + "".join(
         f'<a href="{"index.html" if t == "base" else t + ".html"}" '

@@ -2,8 +2,10 @@
 
 [![ci](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml)
 
-Voxrede reviews recorded conversations between two AssemblyAI Voice Agent
-sessions and traces policy findings to transcript and tool-request events.
+Voxrede is a voice-agent red-teaming project: challenge a declared policy,
+inspect the recorded evidence, and compare a follow-up sample. It reviews
+conversations between two AssemblyAI Voice Agent sessions and traces policy
+findings to transcript and tool-request events.
 The current demo creates both sessions from local configurations. It does not
 connect to an existing deployed agent or dial a phone number. Target business
 tools are mocked; reproducing a prompt is not equivalent to testing its production integration.
@@ -29,6 +31,27 @@ taken on trust.
 **Full findings:** https://himanshu748.github.io/voxrede/findings.html
 
 ## Run it
+
+For a judge walkthrough, open the overview and select **Start guided review**.
+Four steps explain the policy, the test, the recorded disclosure, and the
+follow-up. Each finding links to its archived report. The transcript replay
+starts only when requested and can return to the finding immediately.
+This walkthrough needs no API key or live voice session. Audio is not embedded.
+
+To serve that same walkthrough locally using only static files:
+
+```bash
+python3.13 -m venv .venv
+./.venv/bin/python build_page.py
+./.venv/bin/python combined_build.py
+./.venv/bin/python deck_build.py
+./.venv/bin/python static_build.py
+python3 -m http.server 8916 --bind 127.0.0.1 --directory static
+```
+
+Open http://127.0.0.1:8916/overview.html. The review remains readable when
+JavaScript is disabled; missing or mismatched walkthrough evidence displays an
+unavailable state rather than a comparison claim.
 
 Read the committed findings, run the tests, and browse the reports. No API key
 needed, nothing is called:
