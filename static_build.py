@@ -64,6 +64,9 @@ def build():
     shutil.copy("landing.html", out / "overview.html")
     (out / "findings.html").write_text(Path("findings.html").read_text().replace('href="./"', 'href="overview.html"'))
     shutil.copy("deck.html", out / "deck.html")
+    if Path("watch.html").exists():
+        (out / "watch.html").write_text(Path("watch.html").read_text().replace('href="./"', 'href="overview.html"'))
+        shutil.copy("design.css", out / "design.css")
     print("wrote static/overview.html, findings.html, deck.html")
 
 

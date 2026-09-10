@@ -29,6 +29,8 @@ taken on trust.
 **Live pages:** https://himanshu748.github.io/voxrede/ (`/findings.html` for every scored run, `/deck.html` for the deck)
 **Overview:** https://himanshu748.github.io/voxrede/
 **Full findings:** https://himanshu748.github.io/voxrede/findings.html
+**Narrated walkthrough:** https://himanshu748.github.io/voxrede/watch.html
+**PDF deck:** https://himanshu748.github.io/voxrede/assets/submission/voxrede-deck.pdf
 
 ## Run it
 
@@ -36,7 +38,7 @@ For a judge walkthrough, open the overview and select **Start guided review**.
 Four steps explain the policy, the test, the recorded disclosure, and the
 follow-up. Each finding links to its archived report. The transcript replay
 starts only when requested and can return to the finding immediately.
-This walkthrough needs no API key or live voice session. Audio is not embedded.
+The guided review needs no API key or live voice session. Original call audio is not embedded. The separate video walkthrough uses AssemblyAI-generated presentation narration.
 
 To serve that same walkthrough locally using only static files:
 

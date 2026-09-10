@@ -24,6 +24,10 @@ Code: https://github.com/himanshu748/voxrede
 Overview: https://himanshu748.github.io/voxrede/
 Findings: https://himanshu748.github.io/voxrede/findings.html
 Deck: https://himanshu748.github.io/voxrede/deck.html
+PDF: https://himanshu748.github.io/voxrede/assets/submission/voxrede-deck.pdf
+Video: https://himanshu748.github.io/voxrede/watch.html
+MP4: https://himanshu748.github.io/voxrede/assets/submission/voxrede-demo.mp4
+Cover: https://himanshu748.github.io/voxrede/assets/submission/cover.png
 
 ## Submission status
-These links are public artifacts, not evidence of a completed lablab submission. A final demo video, PDF deck attachment, and platform receipt must be verified separately. Multiple entries have not been confirmed as permitted by the event's published rules.
+The public demo and PDF deck are deployed. The narrated video uses AssemblyAI Voice Agent API output (alba); it shows edited captures of the archived report viewer, not a new test call. The lablab submission remains pending sign-in, and there is no platform receipt. Multiple entries have not been confirmed as permitted by this event's published rules.

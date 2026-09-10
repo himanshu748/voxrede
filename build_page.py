@@ -495,6 +495,7 @@ def build():
 </div></section>
 
 <footer><div class="wrap">
+<a href="watch.html">Watch the narrated walkthrough</a>
   <span><a href="https://github.com/himanshu748/voxrede">github.com/himanshu748/voxrede</a></span>
   <span>Built on the AssemblyAI Voice Agent API</span>
 </div></footer>
