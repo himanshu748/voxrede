@@ -30,4 +30,4 @@ MP4: https://himanshu748.github.io/voxrede/assets/submission/voxrede-demo.mp4
 Cover: https://himanshu748.github.io/voxrede/assets/submission/cover.png
 
 ## Submission status
-The public demo and PDF deck are deployed. The narrated video uses AssemblyAI Voice Agent API output (alba); it shows edited captures of the archived report viewer, not a new test call. The lablab submission remains pending sign-in, and there is no platform receipt. Multiple entries have not been confirmed as permitted by this event's published rules.
+The public demo and PDF deck are deployed. The narrated video uses AssemblyAI Voice Agent API output (alba); it shows edited captures of the archived report viewer, not a new test call. The lablab account is enrolled. Submission is pending the required Discord connection and community membership, then team creation. Comet is at the Discord login screen; no platform receipt exists. Multiple entries have not been confirmed as permitted by this event's published rules.
