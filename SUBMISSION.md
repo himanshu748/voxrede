@@ -30,4 +30,14 @@ MP4: https://himanshu748.github.io/voxrede/assets/submission/voxrede-demo.mp4
 Cover: https://himanshu748.github.io/voxrede/assets/submission/cover.png
 
 ## Submission status
-The public demo and PDF deck are deployed. The narrated video uses AssemblyAI Voice Agent API output (alba); it shows edited captures of the archived report viewer, not a new test call. The lablab account is enrolled. Submission is pending the required Discord connection and community membership, then team creation. Comet is at the Discord login screen; no platform receipt exists. Multiple entries have not been confirmed as permitted by this event's published rules.
+Submitted to the AssemblyAI Voice Agent Hackathon on September 10, 2026. Lablab displayed “You have successfully submitted your project” and “Your submission has been accepted!” The saved project page was opened and verified with video, presentation, repository, and demo links.
+
+Submission: https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/voxrede/voxrede
+Team: https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/voxrede
+Submission ID: uw1kvt29nhaowqilxa2w1389
+
+The public demo and PDF deck are deployed. The uploaded 2:28 video uses AssemblyAI Voice Agent API narration (alba); it shows edited captures of the archived report viewer, not a new test call. The team is solo and closed. Discord connection is complete.
+
+The technology picker did not offer AssemblyAI or Voice Agent API. Codex was selected as a development tool; the submission description and additional information explicitly identify AssemblyAI as the runtime and narration provider.
+
+Multiple entries have not been confirmed as permitted by this event's published rules. Submission acceptance is not a judging result.
