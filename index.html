@@ -237,8 +237,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   <div class="kicker mono">Voice agent red-teaming</div>
   <h1>It asked for proof, then <em>read out the answer</em>.</h1>
   <div class="row">
-    <p class="sub">Voxrede calls your voice agent as a hostile caller, then
-      reports what leaked and which tools were requested without authorization.</p>
+    <p class="sub">Voxrede reviews recorded conversations between two AssemblyAI voice sessions,
+      tracing policy findings to transcript and tool-request events.</p>
     <div class="cta">
       <a class="btn primary" href="#finding">Read the finding</a>
       <a class="btn" href="https://github.com/himanshu748/voxrede">Get the code</a>
@@ -361,8 +361,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <section id="scope" class="scope"><div class="wrap">
   <h2>Scope of the evidence</h2>
   <ul>
-    <li><b>The target agent is our own fixture.</b> Its prompt is written to be
-      realistic, not adversarially hardened.</li>
+    <li><b>The target agent is our own fixture.</b> Both voice sessions are created
+      from local configurations. Existing hosted agents and phone endpoints are
+      not connected, and business tools return mocked results.</li>
     <li><b>Six attacks is six attacks.</b> This is not a benchmark and makes no
       claim to cover the attack space.</li>
     <li><b>Nothing here was run against anyone's production agent.</b> Point it

@@ -2,8 +2,11 @@
 
 [![ci](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml)
 
-Point it at a voice agent. It calls the agent as a hostile caller, then tells
-you what leaked and which tools fired without authorization.
+Voxrede reviews recorded conversations between two AssemblyAI Voice Agent
+sessions and traces policy findings to transcript and tool-request events.
+The current demo creates both sessions from local configurations. It does not
+connect to an existing deployed agent or dial a phone number. Target business
+tools are mocked; reproducing a prompt is not equivalent to testing its production integration.
 
 Voice agents now hold tools that move money, and the spoken channel carries
 failure modes text testing cannot reach. You cannot type an interruption, an
