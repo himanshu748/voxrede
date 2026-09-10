@@ -13,7 +13,8 @@ PAGES = [("base", "Baseline", "report_base.json",
           "The same two attacks re-run after appending the guardrail the report "
           "suggests. These samples do not establish a fix rate."),
          ("noisecheck", "Audio condition", "report_noisecheck.json", "One archived audio-condition sample; no coverage claim."),
-         ("demoaudio", "Repeat sample", "report_demoaudio.json", "A later recording. Outcomes vary between calls.")]
+         ("demoaudio", "Repeat sample", "report_demoaudio.json", "A later recording. Outcomes vary between calls."),
+         ("base2", "Second baseline", "report_base2.json", "A second baseline recording. Compare only the scenarios present in both samples.")]
 
 SHELL = """<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voxrede Findings</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">

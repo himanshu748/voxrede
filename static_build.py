@@ -7,7 +7,8 @@ PAGES = [("base", "Baseline", "report_base.json"),
          ("lax", "No verification step", "report_lax.json"),
          ("hardened", "After guardrail", "report_hardened.json"),
          ("noisecheck", "Audio condition", "report_noisecheck.json"),
-         ("demoaudio", "Repeat sample", "report_demoaudio.json")]
+         ("demoaudio", "Repeat sample", "report_demoaudio.json"),
+         ("base2", "Second baseline", "report_base2.json")]
 
 NAV = """<style>%s
 .topnav{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);
@@ -60,7 +61,7 @@ def build():
         print(f"wrote static/{name}")
 
     shutil.copy("landing.html", out / "overview.html")
-    shutil.copy("findings.html", out / "findings.html")
+    (out / "findings.html").write_text(Path("findings.html").read_text().replace('href="./"', 'href="overview.html"'))
     shutil.copy("deck.html", out / "deck.html")
     print("wrote static/overview.html, findings.html, deck.html")
 
