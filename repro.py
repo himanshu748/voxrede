@@ -27,16 +27,24 @@ def load(tag):
         return None
     if validate_report(d, require_case_ids=True):
         return None
-    return {r["attack"]: r for r in d["results"]}
+    return d
 
 
 def main(tags):
-    runs = [(t, load(t)) for t in tags]
+    if len(tags) < 2 or len(set(tags)) != len(tags):
+        print("Select at least two distinct report files; comparison is inconclusive.")
+        return 1
+    documents = [(t, load(t)) for t in tags]
+    runs = [(t, d) for t, d in documents]
     missing = [t for t, r in runs if r is None]
     if missing:
         print(f"no usable report for: {', '.join(missing)}; comparison is inconclusive")
         return 1
-    runs = [(t, r) for t, r in runs if r]
+    identities = {(d['target'], d.get('hardened')) for _, d in documents if d}
+    if len(identities) > 1:
+        print("Target or prompt-mode metadata differs; no repeat-run conclusion is available.")
+        return 1
+    runs = [(t, {r['attack']: r for r in d['results']}) for t, d in documents if d]
 
     attacks = sorted({a for _, r in runs for a in r})
     if not attacks:
@@ -64,6 +72,9 @@ def main(tags):
             cells += f"{colour}{txt.rjust(15)}{RESET}"
             verdicts.append(verdict)
         print(a.ljust(w) + cells)
+        if len(verdicts) != len(runs):
+            print(f"  {a}: sample missing from at least one report; no cross-run conclusion.")
+            continue
         if any(v not in ("PASS", "DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") for v in verdicts):
             print(f"  {a}: incomplete evidence; no cross-run conclusion.")
             continue
@@ -78,8 +89,9 @@ def main(tags):
             clean.append(a)
 
     print("-" * len(head))
+    print("Matched by target name, prompt mode, and case ID; configuration identity is not certified.")
     if stable:
-        print(f"reproduced every run:  {', '.join(stable)}")
+        print(f"findings in all compared samples: {', '.join(stable)}")
     if flaky:
         print(f"broke intermittently:  {', '.join(flaky)}")
     if clean:

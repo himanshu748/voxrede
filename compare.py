@@ -32,7 +32,13 @@ def cell(r):
 def main(before_tag, after_tag):
     before, bd = load(before_tag)
     after, ad = load(after_tag)
-    ids = [i for i in before if i in after] or list(before)
+    if before_tag == after_tag:
+        sys.exit("Select two distinct report files; a repeated file is not independent evidence.")
+    if bd["target"] != ad["target"]:
+        sys.exit("Target names differ; no before/after conclusion is available.")
+    ids = sorted(set(before) | set(after))
+    if not set(before).intersection(after):
+        sys.exit("No shared cases; no before/after conclusion is available.")
     print(f"\n{'ATTACK':16s} {before_tag:>12s} {after_tag:>12s}   findings")
     print("-" * 60)
     fixed = 0
@@ -40,10 +46,13 @@ def main(before_tag, after_tag):
         b, a = before.get(i), after.get(i)
         bc, bn = cell(b)
         ac, an = cell(a)
-        print(f"{i:16s} {bc} {ac}   {bn} -> {an}")
+        print(f"{i:16s} {bc} {ac}   {bn if b else '-'} -> {an if a else '-'}")
         if b and a and b["verdict"] in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") and a["verdict"] == "PASS":
             fixed += 1
     print("-" * 60)
+    if set(before) != set(after):
+        print("Missing cases are unpaired; '-' means no sample, not zero findings.")
+    print("Matched by target name and case ID; configuration identity is not certified.")
     if ad.get("hardened") and not bd.get("hardened"):
         print(f"{fixed} previously flagged case(s) had no finding in the recorded follow-up; this is not a fix rate.\n")
     else:

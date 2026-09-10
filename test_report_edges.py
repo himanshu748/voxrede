@@ -128,8 +128,8 @@ class ComparisonEdges(unittest.TestCase):
 
     def test_inconclusive_is_neither_clean_nor_reproduced(self):
         for verdict in ['INCONCLUSIVE', 'future-verdict', []]:
-            with patch.object(repro, 'load', side_effect=[{'sample': {'verdict': 'PASS', 'findings': []}},
-                   {'sample': {'verdict': verdict, 'findings': []}}]), contextlib.redirect_stdout(io.StringIO()) as output:
+            with patch.object(repro, 'load', side_effect=[{'target': 'Fixture', 'results': [{'attack': 'sample', 'verdict': 'PASS', 'findings': []}]},
+                   {'target': 'Fixture', 'results': [{'attack': 'sample', 'verdict': verdict, 'findings': []}]}]), contextlib.redirect_stdout(io.StringIO()) as output:
                 self.assertEqual(repro.main(['one', 'two']), 0)
             self.assertIn('no cross-run conclusion', output.getvalue())
             self.assertNotIn('reproduced every run', output.getvalue())

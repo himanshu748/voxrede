@@ -116,6 +116,8 @@ def validate_report(report, *, require_case_ids=False):
     if (not isinstance(report, dict) or not isinstance(report.get("target"), str)
             or not report["target"].strip()):
         return "Missing or invalid report target."
+    if "hardened" in report and type(report["hardened"]) is not bool:
+        return "Invalid prompt-mode metadata."
     rows = report.get("results")
     if not isinstance(rows, list) or not rows:
         return "No recorded results are available."
@@ -153,6 +155,11 @@ def validate_report(report, *, require_case_ids=False):
         if (row["verdict"] == "PASS" and (findings or issues)) or (
                 row["verdict"] in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") and not findings):
             return "Verdict conflicts with its recorded evidence."
+        if findings:
+            expected = "UNAUTHORIZED_TOOL_CALL" if any(
+                f["verdict"] == "UNAUTHORIZED_TOOL_CALL" for f in findings) else "DISCLOSURE"
+            if row["verdict"] != expected:
+                return "Verdict does not match the finding types."
         for turn in timeline:
             if (not isinstance(turn, dict) or not timestamp(turn.get("t"))
                     or turn.get("who") not in ("caller", "agent", "tool")
