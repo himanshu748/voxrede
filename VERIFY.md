@@ -128,10 +128,10 @@ What this means in practice:
 
 ## Handed back (needs a person, not the harness)
 
-1. **Record the demo video.** `RECORDING.md` has six timed beats, the commands,
-   and the audio table. The leak clip is at 44.6s of
-   `runs/demoaudio_05_pii.wav`. Play recorded runs on camera: outcomes vary
-   between runs, so a live call on stage is a coin flip.
+1. **Demo video: done.** A 2:28 walkthrough narrated with the Voice Agent API
+   was published on 10 September with captions, and the entry was submitted
+   and accepted that day (ID `uw1kvt29nhaowqilxa2w1389`, see SUBMISSION.md).
+   It shows edited captures of the archived report viewer, not a new call.
 2. **Twilio phone leg.** No credentials on this machine and no `fin-ed`
    project exists under `~/n` or `~/Documents`. Nothing about a phone path may
    be claimed until it is built and run.
