@@ -107,6 +107,23 @@ def plain(text):
     return text.replace("\u2014", "-").replace("\u2013", "-")
 
 
+def finding_matches_turn(finding, turn):
+    """Check the saved finding's display source, without re-scoring its policy."""
+    if finding["t"] != turn["t"]:
+        return False
+    if finding["verdict"] == "DISCLOSURE":
+        return turn["who"] == "agent" and turn["text"] == finding["utterance"]
+    prefix = finding["tool"] + "("
+    if (turn["who"] != "tool" or not turn["text"].startswith(prefix)
+            or not turn["text"].endswith(")")):
+        return False
+    try:
+        arguments = json.loads(turn["text"][len(prefix):-1])
+        return arguments == finding["arguments"]
+    except (ValueError, TypeError, RecursionError):
+        return False
+
+
 def validate_report(report, *, require_case_ids=False):
     """Reject malformed display data instead of rendering a misleading pass."""
     def timestamp(value):
@@ -148,12 +165,19 @@ def validate_report(report, *, require_case_ids=False):
             if not isinstance(finding, dict) or not timestamp(finding.get("t")):
                 return "Invalid finding timestamp."
             kind = finding.get("verdict")
-            required = ("tool", "why") if kind == "UNAUTHORIZED_TOOL_CALL" else ("label", "matched")
+            required = (("tool", "why", "requires") if kind == "UNAUTHORIZED_TOOL_CALL"
+                        else ("rule", "label", "matched", "utterance"))
             if kind not in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") or any(
-                    not isinstance(finding.get(k), str) for k in required):
+                    not isinstance(finding.get(k), str) or not finding[k].strip()
+                    for k in required):
                 return "Invalid finding details."
             if kind == "UNAUTHORIZED_TOOL_CALL" and not {"arguments", "requires"}.issubset(finding):
                 return "Incomplete tool-request evidence."
+            if kind == "UNAUTHORIZED_TOOL_CALL":
+                try:
+                    json.dumps(finding["arguments"], allow_nan=False)
+                except (ValueError, TypeError, OverflowError, RecursionError):
+                    return "Invalid tool-request arguments."
         if (row["verdict"] == "PASS" and (findings or issues)) or (
                 row["verdict"] in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL") and not findings):
             return "Verdict conflicts with its recorded evidence."
@@ -162,11 +186,18 @@ def validate_report(report, *, require_case_ids=False):
                 f["verdict"] == "UNAUTHORIZED_TOOL_CALL" for f in findings) else "DISCLOSURE"
             if row["verdict"] != expected:
                 return "Verdict does not match the finding types."
+        previous_time = -1
         for turn in timeline:
             if (not isinstance(turn, dict) or not timestamp(turn.get("t"))
                     or turn.get("who") not in ("caller", "agent", "tool")
                     or not isinstance(turn.get("text"), str)):
                 return "Invalid timeline entry."
+            if turn["t"] < previous_time:
+                return "Timeline timestamps are out of order."
+            previous_time = turn["t"]
+        if any(not any(finding_matches_turn(finding, turn) for turn in timeline)
+               for finding in findings):
+            return "A finding does not match its recorded timeline event."
         if row["verdict"] == "PASS" and not {"caller", "agent"}.issubset(
                 {turn["who"] for turn in timeline if turn["text"].strip()}):
             return "No-finding result is missing two-sided dialogue."
@@ -186,7 +217,9 @@ def render(report, title="Voice agent red-team report"):
     all_f = [f for r in rs for f in r["findings"]]
     tool = [f for f in all_f if f["verdict"] == "UNAUTHORIZED_TOOL_CALL"]
     leak = [f for f in all_f if f["verdict"] == "DISCLOSURE"]
-    mode = "hardened prompt" if report.get("hardened") else "baseline prompt"
+    mode = ("hardened prompt" if report.get("hardened") is True else
+            "baseline prompt" if report.get("hardened") is False else
+            "prompt mode not recorded")
 
     out = [f"<style>{CSS}</style><div class='wrap'>",
            f"<h1>{html.escape(title)}</h1>",
@@ -204,7 +237,6 @@ def render(report, title="Voice agent red-team report"):
 
     for r in rs:
         v = r["verdict"]
-        bad_t = {f["t"] for f in r["findings"]}
         out.append(
             f"<details class='card'{' open' if v != 'PASS' else ''}>"
             f"<summary><span class='badge b-{v}'>{LABEL[v]}</span>"
@@ -241,7 +273,7 @@ def render(report, title="Voice agent red-team report"):
             cls = "turn"
             if turn["who"] == "tool":
                 cls += " tool"
-            elif turn["t"] in bad_t:
+            elif any(finding_matches_turn(finding, turn) for finding in r["findings"]):
                 cls += " bad"
             who = html.escape(turn["who"])
             out.append(
@@ -253,8 +285,8 @@ def render(report, title="Voice agent red-team report"):
     out.append(
         "<footer>Verdicts are deterministic. Every finding traces to a logged "
         "event: a <code>tool.call</code> the agent emitted, or a policy phrase "
-        "it actually spoke. The target agent is a test fixture written for this "
-        "project; its prompt is realistic, not adversarially hardened. "
+        "it actually spoke. This view checks consistency within the supplied report; "
+        "it does not authenticate the original recording. "
         "NO FINDING means no configured rule matched this recorded sample; it is not a safety certification. "
         "INCONCLUSIVE means the recording has missing dialogue or a detected error. "
         "Recorded findings remain visible even when recording quality is incomplete. "

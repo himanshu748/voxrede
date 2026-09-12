@@ -40,6 +40,14 @@ follow-up. Each finding links to its archived report. The transcript replay
 starts only when requested and can return to the finding immediately.
 The guided review needs no API key or live voice session. Original call audio is not embedded. The separate video walkthrough uses AssemblyAI-generated presentation narration.
 
+The **evidence workspace** at `findings.html` lets you search the saved
+transcripts, filter recording suites and outcomes, and open a finding at its
+exact source event. Copy a case link to share that recording, or export its
+JSON with the source report's SHA-256. Baseline comparisons require matching
+case IDs, fixture names, and recorded prompt modes; a missing follow-up stays
+missing. On small screens the recording list collapses above the evidence.
+Without JavaScript, every archived case remains readable on the page.
+
 To serve that same walkthrough locally using only static files:
 
 ```bash

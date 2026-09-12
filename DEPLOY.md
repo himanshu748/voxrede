@@ -38,6 +38,7 @@ budget is exhausted.
 
 ## Static copy
 
-`python static_build.py` writes a `static/` directory (overview plus the three
-reports) that any static host will serve. The published pages listed in the
+`python static_build.py` writes a `static/` directory with the overview,
+searchable evidence workspace, available suite reports, deck, and video page
+that any static host will serve. The published pages listed in the
 README are the same content, hosted already.

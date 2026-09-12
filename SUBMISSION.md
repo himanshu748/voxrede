@@ -8,11 +8,23 @@ A support agent asked a caller to prove ownership, then read out the answer to i
 
 The archived conversations used the AssemblyAI Voice Agent API for both sides. Saved transcripts and tool requests feed a deterministic report: every finding points to an emitted event. The public pages let a reviewer inspect that evidence without an API key.
 
+The evidence workspace contains 17 recorded samples across six suites. Reviewers can search transcripts, filter by suite or outcome, and jump from a finding to its exact source event. Matching baseline and stricter-prompt recordings appear side by side; missing follow-ups stay explicitly missing. Shareable case links and source-file hashes make a specific result easier to review. The workspace also works on mobile, and all cases remain readable without JavaScript.
+
 Two of six baseline samples contained findings. Two previously flagged scenarios had no finding in recorded follow-ups with a stricter prompt: five findings became zero across those two samples. This is a small comparison, not a reliable fix rate. Repeated calls vary.
 
 A separate fixture requested a refund before caller proof appeared. Its tool handler returned a mock result; no money moved. All targets were fixtures written for this project, and no production system was tested.
 
 Missing dialogue, unreadable recordings, and detected provider errors are Inconclusive. No finding means no configured rule matched the sample; it does not certify safety or complete coverage.
+
+AssemblyAI also generated the walkthrough narration. The video introduces the recorded test using the earlier report layout; the live demo includes the expanded evidence workspace. Code is public under MIT.
+
+## Short description
+Voice-agent red teaming with searchable evidence. Inspect 17 archived samples, trace findings to source events, and compare matching follow-ups. Built with AssemblyAI using project-owned fixtures and mocked business tools.
+
+## Judge walkthrough
+Start with the guided review at https://himanshu748.github.io/voxrede/#review. The four steps explain the policy, test, evidence, and recorded follow-up.
+
+Open https://himanshu748.github.io/voxrede/findings.html#base/01_authority/event-7 for the disclosure at 51.887 seconds. The evidence workspace links the quoted finding to its exact conversation event. Open the stricter-prompt recording from the comparison, then use the suite and outcome filters to inspect the other saved samples. Every displayed count describes archived recordings, not a new live run.
 
 ## Positioning
 Voice-agent security testing already exists. Bluejay offers red teaming and AssemblyAI integration. Voxrede's focus here is an inspectable policy-linked evidence report for support-agent developers, with recording quality kept separate from findings. That is a product focus, not a claim to have invented the category.

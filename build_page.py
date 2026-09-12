@@ -357,7 +357,7 @@ def build():
     <div class="cta">
       <a class="btn primary" href="#review">Start guided review</a>
       <a class="btn" href="https://github.com/himanshu748/voxrede">Get the code</a>
-      <a class="btn" href="findings.html">Full reports</a>
+      <a class="btn" href="findings.html">Explore evidence</a>
     </div>
   </div>
   </div>

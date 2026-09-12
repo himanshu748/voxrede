@@ -32,6 +32,29 @@ def sample():
     return {'target': 'Fixture', 'results': [result]}
 
 
+def disclosure_sample():
+    return {'target': 'Fixture', 'results': [dict(
+        name='Recorded sample', **{'class': 'dialogue'}, goal='Review saved evidence',
+        verdict='DISCLOSURE', quality_issues=[], wav=None,
+        findings=[dict(verdict='DISCLOSURE', t=1, rule='example', label='example phrase',
+                       matched='sample phrase', utterance='A sample phrase.')],
+        timeline=[dict(t=0, who='caller', text='Hello.'),
+                  dict(t=1, who='agent', text='A sample phrase.')]) ]}
+
+
+def tool_sample():
+    report = disclosure_sample()
+    report['results'][0].update(
+        verdict='UNAUTHORIZED_TOOL_CALL',
+        findings=[dict(verdict='UNAUTHORIZED_TOOL_CALL', t=2, tool='set_preference',
+                       arguments={'colour': 'green', 'size': 'small'}, requires='confirmation',
+                       why='This fixture requires confirmation.')],
+        timeline=[dict(t=0, who='caller', text='Hello.'),
+                  dict(t=1, who='agent', text='I can help.'),
+                  dict(t=2, who='tool', text='set_preference({"size": "small", "colour": "green"})')])
+    return report
+
+
 class RecordingEdges(unittest.TestCase):
     def test_invalid_timestamps_are_inconclusive(self):
         for value in [True, -1, float('nan'), float('inf'), '1', None, 10**400]:
@@ -103,6 +126,64 @@ class DisplayEdges(unittest.TestCase):
     def test_missing_finding_cannot_display_leaked(self):
         report = sample(); report['results'][0]['verdict'] = 'DISCLOSURE'
         self.assertIn('INCONCLUSIVE', render(report))
+
+    def test_prompt_mode_is_only_shown_when_recorded(self):
+        report = sample()
+        text = render(report)
+        self.assertIn('prompt mode not recorded', text)
+        self.assertNotIn('baseline prompt', text)
+        for value, label in [(False, 'baseline prompt'), (True, 'hardened prompt')]:
+            report['hardened'] = value
+            self.assertIn(label, render(report))
+        for value in [None, 'false', 0, []]:
+            report['hardened'] = value
+            self.assertIn('Invalid prompt-mode metadata', render(report))
+
+    def test_disclosure_evidence_needs_a_readable_rule_and_utterance(self):
+        for key in ('rule', 'utterance'):
+            for value in [None, [], '', '  ']:
+                with self.subTest(key=key, value=value):
+                    report = disclosure_sample()
+                    report['results'][0]['findings'][0][key] = value
+                    self.assertIn('INCONCLUSIVE', render(report))
+            report = disclosure_sample()
+            del report['results'][0]['findings'][0][key]
+            self.assertIsNotNone(validate_report(report))
+
+    def test_disclosure_needs_the_same_agent_event(self):
+        self.assertIsNone(validate_report(disclosure_sample()))
+        for key, value in [('t', 9999), ('utterance', 'Different saved text.')]:
+            report = disclosure_sample()
+            report['results'][0]['findings'][0][key] = value
+            self.assertIn('does not match', validate_report(report))
+        report = disclosure_sample()
+        report['results'][0]['timeline'][1]['who'] = 'caller'
+        self.assertIn('does not match', validate_report(report))
+
+    def test_tool_evidence_links_to_name_arguments_and_timestamp(self):
+        self.assertIsNone(validate_report(tool_sample()))  # JSON key order is immaterial.
+        for key, value in [('t', 9999), ('tool', 'other_tool'), ('arguments', {'colour': 'blue'})]:
+            report = tool_sample()
+            report['results'][0]['findings'][0][key] = value
+            self.assertIn('does not match', validate_report(report))
+        report = tool_sample()
+        report['results'][0]['timeline'][-1]['text'] = 'set_preference(broken)'
+        self.assertIn('does not match', validate_report(report))
+
+    def test_invalid_tool_arguments_do_not_crash_rendering(self):
+        for value in [set(), float('nan'), float('inf')]:
+            report = tool_sample()
+            report['results'][0]['findings'][0]['arguments'] = value
+            self.assertIn('Invalid tool-request arguments', render(report))
+
+    def test_chronological_timeline_with_shared_timestamps(self):
+        report = disclosure_sample()
+        report['results'][0]['timeline'].reverse()
+        self.assertIn('out of order', validate_report(report))
+        report = disclosure_sample()
+        report['results'][0]['timeline'].insert(1, dict(t=1, who='caller', text='Another turn.'))
+        self.assertIsNone(validate_report(report))
+        self.assertEqual(render(report).count("class='turn bad'"), 1)
 
 
 class ComparisonEdges(unittest.TestCase):

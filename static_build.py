@@ -1,5 +1,5 @@
 """Build a static, deployable copy of the console: reports plus audio, no server."""
-import json, shutil
+import json, re, shutil
 from pathlib import Path
 from report import render, CSS
 
@@ -33,41 +33,57 @@ LIVE_NOTE = ("Archived report viewer. Tool execution was mocked. "
              "see the repo README.")
 
 
-def build():
-    out = Path("static")
-    out.mkdir(exist_ok=True)
+def local_overview_links(page):
+    return page.replace('href="./"', 'href="overview.html"').replace(
+        'href="./#', 'href="overview.html#')
+
+
+def build(source_dir=Path("."), out_dir=None):
+    """Build from local saved files; remove pages for reports no longer present."""
+    source = Path(source_dir)
+    out = Path(out_dir) if out_dir is not None else source / "static"
+    out.mkdir(parents=True, exist_ok=True)
     (out / "audio").mkdir(exist_ok=True)
-    shutil.copytree('assets', out / 'assets', dirs_exist_ok=True)
+    shutil.copytree(source / 'assets', out / 'assets', dirs_exist_ok=True)
+    shutil.copy(source / "design.css", out / "design.css")
+
+    available = []
+    for tag, label, filename in PAGES:
+        path = source / "evidence" / filename
+        if path.is_file():
+            available.append((tag, label, path))
+        else:
+            name = "index.html" if tag == "base" else f"{tag}.html"
+            (out / name).unlink(missing_ok=True)
+            print(f"skip {tag}, no {filename}")
 
     links = lambda cur: ('<a href="overview.html">Overview</a>' + "".join(
         f'<a href="{"index.html" if t == "base" else t + ".html"}" '
         f'class="{"on" if t == cur else ""}">{lbl}</a>'
-        for t, lbl, _ in PAGES))
+        for t, lbl, _ in available))
 
-    for tag, label, src in PAGES:
-        p = Path("evidence") / src
-        if not p.exists():
-            print(f"skip {tag}, no {src}")
-            continue
-        report = json.loads(p.read_text())
+    for tag, label, path in available:
+        report = json.loads(path.read_text())
         body = render(report, title=f"{label} report")
         # static audio lives beside the page, and compressed
         # audio ships with the local server, not the static copy
-        import re as _re
-        body = _re.sub(r"<audio[^>]*></audio>", "", body)
+        body = re.sub(r"<audio[^>]*></audio>", "", body)
         html = (f"<title>Voxrede {label}</title>\n"
                 + NAV % (CSS, links(tag), LIVE_NOTE) + body)
         name = "index.html" if tag == "base" else f"{tag}.html"
         (out / name).write_text(html)
-        print(f"wrote static/{name}")
+        print(f"wrote {out / name}")
 
-    shutil.copy("landing.html", out / "overview.html")
-    (out / "findings.html").write_text(Path("findings.html").read_text().replace('href="./"', 'href="overview.html"'))
-    shutil.copy("deck.html", out / "deck.html")
-    if Path("watch.html").exists():
-        (out / "watch.html").write_text(Path("watch.html").read_text().replace('href="./"', 'href="overview.html"'))
-        shutil.copy("design.css", out / "design.css")
-    print("wrote static/overview.html, findings.html, deck.html")
+    shutil.copy(source / "landing.html", out / "overview.html")
+    (out / "findings.html").write_text(local_overview_links((source / "findings.html").read_text()))
+    shutil.copy(source / "deck.html", out / "deck.html")
+    if (source / "watch.html").is_file():
+        (out / "watch.html").write_text(local_overview_links((source / "watch.html").read_text()))
+    else:
+        (out / "watch.html").unlink(missing_ok=True)
+    print(f"wrote {out / 'overview.html'}, findings.html, deck.html")
+    return out
 
 
-build()
+if __name__ == "__main__":
+    build()

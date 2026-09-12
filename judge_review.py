@@ -4,7 +4,7 @@ import html
 import json
 from pathlib import Path
 
-from report import LABEL, validate_report
+from report import LABEL, finding_matches_turn, validate_report
 
 
 def render_review(evidence=Path('evidence'), target_path=Path('targets/meridian.json')):
@@ -24,10 +24,13 @@ def render_review(evidence=Path('evidence'), target_path=Path('targets/meridian.
                 or base.get('hardened') is not False or followup.get('hardened') is not True):
             raise ValueError('The recordings are not a baseline and follow-up for the same fixture.')
         finding = next(f for f in before['findings'] if f['verdict'] == 'DISCLOSURE')
+        finding_event = next(i for i, turn in enumerate(before['timeline'])
+                             if finding_matches_turn(finding, turn))
         rule = next(r for r in target['policy']['no_disclosure'] if r['id'] == finding['rule'])
         if before.get('quality_issues'):
             raise ValueError('The baseline recording needs review.')
-        response = next(t['text'] for t in reversed(after['timeline']) if t['who'] == 'agent')
+        response = next(t['text'] for t in reversed(after['timeline'])
+                        if t['who'] == 'agent' and t['text'].strip())
         if not isinstance(rule['label'], str) or not rule['label'].strip():
             raise ValueError('The policy needs a readable label.')
     except (OSError, ValueError, TypeError, KeyError, StopIteration):
@@ -37,6 +40,9 @@ Open the full reports to inspect it. No comparison conclusion is shown.</p>
 <a href="findings.html">Inspect archived reports</a></div>'''
 
     esc = html.escape
+    followup_quality = ''.join(
+        f'<p class="review-source">Recording quality: {esc(issue)}</p>'
+        for issue in after.get('quality_issues', []))
     steps = [
         ('01 / The policy', 'Define what the agent must protect.',
          f'<p>The fixture policy forbids disclosure of the <strong>{esc(rule["label"])}</strong>.</p>'
@@ -50,19 +56,20 @@ Open the full reports to inspect it. No comparison conclusion is shown.</p>
          f'<blockquote>{esc(finding["utterance"])}</blockquote>'
          '<p>The agent supplied the answer while asking the caller to prove it. The configured disclosure rule matched this recorded response.</p>'
          f'<p class="review-source">Baseline report · SHA-256 {base_hash}</p>'
-         '<a href="findings.html#base">Inspect the baseline events →</a>'),
+         f'<a href="findings.html#base/01_authority/event-{finding_event}">Inspect the baseline events →</a>'),
         ('04 / The follow-up', f'{LABEL[after["verdict"]].capitalize()} in the follow-up recording.',
          f'<blockquote>{esc(response)}</blockquote>'
          f'<p>The stricter-prompt recording contains {len(after["findings"])} configured findings for this scenario. '
          'This is one follow-up sample; it does not establish a reliable fix rate.</p>'
+         + followup_quality +
          f'<p class="review-source">Follow-up report · SHA-256 {after_hash}</p>'
-         '<a href="findings.html#hardened">Inspect the follow-up events →</a>'),
+         '<a href="findings.html#hardened/01_authority">Inspect the follow-up events →</a>'),
     ]
     cards = ''.join(
         f'<article class="review-step" id="review-step-{i}" aria-labelledby="review-heading-{i}">'
         f'<h3 id="review-heading-{i}" tabindex="-1">{esc(title)}</h3>{body}</article>'
         for i, (label, title, body) in enumerate(steps))
-    return '''<div class="review" id="review" data-step="0" aria-labelledby="review-title">
+    page = '''<div class="review" id="review" data-step="0" aria-labelledby="review-title">
 <div class="review-top"><h2 id="review-title">Inside a voice-agent red-team test.</h2>
 <span class="review-mode">An archived conversation.<br>No API key needed to explore.</span></div>
 <div class="review-nav" aria-label="Review steps" hidden>
@@ -89,7 +96,7 @@ Open the full reports to inspect it. No comparison conclusion is shown.</p>
 <div><strong id="signal-title">A declared boundary</strong>
 <p id="signal-description">The policy defines which account information the agent must protect.</p></div>
 </div>
-<p class="signal-time">RECORDED FINDING / 00:51.887</p>
+<p class="signal-time">RECORDED FINDING / {{EVIDENCE_SECONDS}}s</p>
 </div>
 <div class="review-detail">
 ''' + cards + '''
@@ -112,7 +119,7 @@ The target here is our own fixture. Business tools were mocked.</p>
   const phases = [
     ['A declared boundary', 'The policy defines which account information the agent must protect.'],
     ['A conversation under pressure', 'The simulated caller tests whether the support agent preserves that boundary.'],
-    ['A finding with a source', 'The recorded response matches a disclosure rule at 51.887 seconds.'],
+    ['A finding with a source', 'The recorded response matches a disclosure rule at {{EVIDENCE_SECONDS}} seconds.'],
     ['A recorded follow-up', 'Inspect the stricter-prompt sample beside the original finding.'],
   ];
   function show(index, focus = false) {
@@ -148,3 +155,4 @@ The target here is our own fixture. Business tools were mocked.</p>
   show(0);
 })();
 </script>'''
+    return page.replace('{{EVIDENCE_SECONDS}}', f'{finding["t"]:.3f}')

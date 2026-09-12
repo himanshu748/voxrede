@@ -178,6 +178,8 @@ The desktop container has a 1280px maximum width with the page-inset token. Sect
 
 At 1000px and below, page insets become 32px, review padding becomes 26px, and the headline becomes 64px. At 700px and below, page insets become 22px, the headline becomes 57px, and the review stacks the diagram above the evidence. The diagram separator becomes horizontal; review padding becomes 22px 18px, section spacing becomes 52px, and the navigation height changes from 82px to 66px. Source identifiers remain available in detail even where compact diagram metadata is hidden.
 
+The evidence workspace uses a wider container (1500px maximum): a narrow case index (300px, reducing to 255px at 1000px) sits beside the primary evidence document. At 700px and below, the index becomes a collapsible section above the document. It starts collapsed when JavaScript is active; without JavaScript, the index and every recorded case remain available.
+
 ## Elevation & Depth
 
 The shared stylesheet defines no shadow tokens. Tonal layers, spacing, and one-pixel rules provide separation. Navigation has no backdrop blur. Primary buttons change fill on hover without lifting.
@@ -210,7 +212,13 @@ The page navigation is an opaque ivory bar with a fine bottom rule and a Manrope
 
 ### Signal Review
 
-The paired caller and target diagram routes a recorded conversation into inspectable evidence. Step changes highlight the associated diagram element. Only the test step animates the connector: a dashed path moves over 1.5s, linearly and continuously, only when reduced motion is not requested. This depicts the selected test step, not live telemetry. Transcript replay, audio availability, and source references retain their explicit labels. No input-field component is established by this design pass.
+The paired caller and target diagram routes a recorded conversation into inspectable evidence. Step changes highlight the associated diagram element. Only the test step animates the connector: a dashed path moves over 1.5s, linearly and continuously, only when reduced motion is not requested. This depicts the selected test step, not live telemetry. Transcript replay, audio availability, and source references retain their explicit labels. The signal review does not use input fields.
+
+### Evidence Workspace
+
+The searchable case index uses compact, labeled search and select controls with fine borders and modest corners. Suite and outcome filters retain a visible result count and reset action. The selected case uses plum with paper text; written verdicts remain distinct from selection state.
+
+The ivory evidence document presents findings, the recorded comparison, then the transcript. Exact event anchors connect each finding to its matching source row and give that row a visible outline. Missing or incompatible comparison samples receive an explicit explanation; incomplete recordings keep their quality notice. Case links and evidence exports support sharing without changing the recorded material. Search, filters, sharing controls, and speaker selection progressively enhance the fully rendered archive.
 
 ## Do's and Don'ts
 
