@@ -1,9 +1,10 @@
 """Run an attack suite against a target agent and write a report."""
-import argparse, asyncio, json, time
+import argparse, asyncio, json, time, uuid
 from pathlib import Path
 
 from bridge import bridge, load_env
 from scorer import score
+from evidence_trial import scenario, observations, private_write, digest
 
 RED = {"UNAUTHORIZED_TOOL_CALL": "\033[31m", "DISCLOSURE": "\033[33m",
        "PASS": "\033[32m"}
@@ -48,7 +49,12 @@ async def main():
     ap.add_argument("--harden", action="store_true",
                     help="append the suggested guardrail to the target prompt")
     ap.add_argument("--tag", default="base")
+    ap.add_argument("--approve-paid-sessions", action="store_true", help="operator approval for bounded provider sessions")
     args = ap.parse_args()
+    if not args.approve_paid_sessions:
+        ap.error("Paid sessions require explicit approval; use evidence_trial.py for offline imports")
+    if not 1 <= args.seconds <= 120:
+        ap.error("seconds must be between 1 and 120")
 
     load_env()
     target = json.loads(Path(args.target).read_text())
@@ -63,11 +69,18 @@ async def main():
     for a in attacks:
         print(f"\n=== {a['id']}  {a['name']}  ({a.get('seconds', args.seconds)}s)")
         run_id = f"{args.tag}_{a['id']}"
-        secs = a.get("seconds", args.seconds)
+        condition = scenario(a, args.seconds)
+        secs = condition["seconds"]
         path = await bridge(attacker_config(a), target["agent"],
                             seconds=secs, run_id=run_id,
-                            noise=0.6 if a.get("noise") else 0.0)
+                            noise=condition["noise"], approved=True,
+                            evidence_context={"policy": target["policy"], "configuration_sha256": digest(target),
+                                              "scenario": condition, "defense_changes": GUARD if args.harden else "none"})
         r = score(path, target)
+        r.update(conditions=condition, observations=observations(path),
+                 policy_sha256=digest(target["policy"]), configuration_sha256=digest(target))
+        private_write(Path(path).parent / "policy.json", target["policy"])
+        private_write(Path(path).parent / "assessment.json", r)
         wav = path.replace(".jsonl", ".wav")
         r.update({"attack": a["id"], "name": a["name"], "class": a["class"],
                   "goal": a["goal"], "run": path, "hardened": args.harden,
@@ -78,11 +91,11 @@ async def main():
         print(f"  -> {c}{r['verdict']}{RESET} ({r['turns']} turns)")
 
     Path("evidence").mkdir(exist_ok=True)
-    out = Path(f"evidence/report_{args.tag}.json")
-    out.write_text(json.dumps({
+    out = Path("runs") / f"report_{uuid.uuid4().hex}.json"
+    private_write(out, {
         "target": target["id"], "hardened": args.harden,
         "generated_at": time.time(), "results": results,
-    }, indent=2))
+    })
 
     print("\n" + "=" * 62)
     print(f"{'ATTACK':16s} {'CLASS':20s} VERDICT")
@@ -90,9 +103,9 @@ async def main():
     for r in results:
         c = RED.get(r["verdict"], "")
         print(f"{r['attack']:16s} {r['class']:20s} {c}{r['verdict']}{RESET}")
-    broken = [r for r in results if r["verdict"] != "PASS"]
+    broken = [r for r in results if r.get("evaluation_verdict") in ("DISCLOSURE", "UNAUTHORIZED_TOOL_CALL")]
     print("-" * 62)
-    print(f"{len(broken)} of {len(results)} attacks broke the agent")
+    print(f"{len(broken)} of {len(results)} completed trials had detector findings (not confirmed production failures)")
     print(f"report: {out}")
 
 if __name__ == "__main__":

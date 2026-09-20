@@ -2,12 +2,13 @@ FROM python:3.13-slim
 WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
-COPY bridge.py scorer.py report.py run_suite.py server.py compare.py ./
+COPY bridge.py scorer.py report.py run_suite.py server.py compare.py evidence_trial.py ./
 COPY design.css ./
 COPY assets/fonts/ assets/fonts/
 COPY attacks/ attacks/
 COPY targets/ targets/
 COPY evidence/ evidence/
 ENV PORT=8080
+ENV VOXREDE_HOST=0.0.0.0
 EXPOSE 8080
 CMD ["python", "server.py"]

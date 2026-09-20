@@ -1,0 +1,9 @@
+# Current demo script — approximately three minutes
+
+1. Open https://himanshu748.github.io/voxrede/evaluation.html. Say: "Voxrede tests a fictional voice agent and preserves what happened. These are 19 real attempts, including incomplete ones."
+2. Start with the first permitted account-lookup pair. Play each support-agent delivered track. Open baseline source event 3901 and stricter-prompt event 5655. Both explain that no real account lookup occurred. Show the matching generated/sent byte counts. Say: "The useful task completed, but the stricter run still has an unacknowledged shutdown. I keep those outcomes separate."
+3. Expand all evaluation stages. Show stopped batches and their unattempted slots. Inspect the earlier lookup pair where a mock operation was incorrectly described as real, then return to the final pair.
+4. Show authority, noise and interruption pairs. Point out intended conditions that were not observed; do not count a greeting interruption as interrupting a refusal. Twelve evaluations are inconclusive. No configured finding is not proof of safety.
+5. Open https://himanshu748.github.io/voxrede/findings.html#base/01_authority/event-7. Show the historical disclosure, exact source event, search and matched follow-up. Explain that this older fixture archive keeps its historical scores and cannot certify delivered audio.
+6. Download a current manifest and source log. Explain unique trial IDs, configuration identity, original/public hashes and token redaction. Tool calls are requests; all results are simulated. The fixture has no trusted authentication adapter.
+7. Close: "The result is evidence a reviewer can inspect, not a claim that the agent is safe. The current deck and recorded evaluation document the upgrade; the narrated video shows the earlier viewer."

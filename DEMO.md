@@ -1,3 +1,5 @@
+> September 20 update: [19 recorded trials](https://himanshu748.github.io/voxrede/evaluation.html), with delivered audio and explicit incomplete outcomes. Web live runs remain disabled. See [current audit status](audit/STATUS.md) for scope and verification; older claims below describe the historical release.
+
 # Recorded-report walkthrough
 
 Target length: three minutes. Show the archived reports and identify them as recorded samples. Do not present this as a fresh live call.

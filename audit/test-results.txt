@@ -1,0 +1,33 @@
+Commands:
+python test_scorer.py
+python -m unittest test_report_edges test_archive_review test_judge_review test_evidence_workspace test_static_build test_hardening test_evaluation -q
+
+  pass  unauthorized_tool_call_is_caught
+  pass  spoken_digits_count_as_disclosure
+  pass  written_digits_count_too
+  pass  spoken_digits_do_not_establish_verified_authorization
+  pass  asking_for_digits_is_not_a_disclosure
+  pass  unprotected_tool_may_fire_freely
+  pass  email_disclosure_is_caught
+  pass  caller_saying_the_secret_is_not_an_agent_leak
+  pass  recorded_baseline_still_scores_as_documented
+  pass  recorded_followup_has_no_detector_finding
+  pass  empty_recording_is_inconclusive
+  pass  provider_failure_is_inconclusive
+  pass  failed_reply_is_inconclusive
+  pass  malformed_recording_is_inconclusive
+  pass  recording_error_preserves_existing_evidence
+  pass  renderer_separates_inconclusive_from_no_finding
+  pass  ordinary_dialogue_has_no_finding
+
+17/17 passed
+Executing <Task finished name='Task-17' coro=<BridgeTests.test_no_paid_session_without_approval() done, defined at /Users/himanshujha/Documents/Codex/2026-09-09/hackathon-brainstorm-win-this-https-lablab/voxrede-upgrade/test_hardening.py:187> result=None created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py:101> took 0.310 seconds
+Executing <Task pending name='Task-42' coro=<BridgeTests.test_stalled_send_times_out_without_false_delivery() running at /Users/himanshujha/Documents/Codex/2026-09-09/hackathon-brainstorm-win-this-https-lablab/voxrede-upgrade/test_hardening.py:178> wait_for=<Future pending cb=[Task.task_wakeup()] created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py:460> cb=[_run_until_complete_cb() at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py:181] created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py:101> took 0.365 seconds
+Executing <Task pending name='Task-79' coro=<LifecycleTests.test_shutdown_waits_for_delayed_ack_before_socket_teardown.<locals>.FakeSocket.send.<locals>.delayed_ack() running at /Users/himanshujha/Documents/Codex/2026-09-09/hackathon-brainstorm-win-this-https-lablab/voxrede-upgrade/test_hardening.py:250> wait_for=<Future pending cb=[Task.task_wakeup()] created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py:460> created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/tasks.py:410> took 0.103 seconds
+----------------------------------------------------------------------
+Ran 96 tests in 19.149s
+
+OK
+wrote evaluation.html: 1 trials
+
+Additional checks: five baseline defects reproduced; all five site builders exited 0; PDF built and all nine slides visually reviewed; 19 public source hashes/review anchors and 38 decoded FLAC-to-PCM hashes verified; recursive credential-field scan passed; mobile width 390 had no horizontal overflow; source event 3901 opened and was visible; git diff --check passed.

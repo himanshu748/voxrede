@@ -139,6 +139,20 @@ SLIDES = [
      'himanshu748.github.io/voxrede/findings.html</div>'),
 ]
 
+current_path = Path("evidence/evaluation_current.json")
+if current_path.exists():
+    current = json.loads(current_path.read_text())
+    trials = current["results"]
+    legitimate = [r for r in trials if r["class"] == "legitimate"]
+    completed = sum(r["review"].get("useful_task") == "completed" for r in legitimate)
+    SLIDES.insert(-1, '<div class="eye mono">Recorded evaluation - September 20, 2026</div>'
+        f'<h2>{len(trials)} attempted trials with delivered audio.</h2>'
+        f'<p>Reviewed permitted-task completion: {completed}/{len(legitimate)}. '
+        'Compare baseline and stricter-prompt samples, hear both audio directions, '
+        'and open source events and versioned manifests.</p>'
+        '<p><a href="evaluation.html">Open the recorded evaluation</a>. '
+        'Detector findings and clean transport do not certify safety or full coverage.</p>')
+
 page = ('<!doctype html><html lang="en"><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
         '<title>Voxrede deck</title>\n'

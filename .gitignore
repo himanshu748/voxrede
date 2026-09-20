@@ -13,3 +13,6 @@ static/
 
 # Local design exploration notes
 .impeccable/
+
+output/
+tmp/

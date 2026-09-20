@@ -213,7 +213,7 @@ def render(report, title="Voice agent red-team report"):
                 "<p>The source report needs review; no pass rate is shown.</p></div>")
     rs = report["results"]
     passed = sum(r["verdict"] == "PASS" for r in rs)
-    inconclusive = sum(r["verdict"] == "INCONCLUSIVE" for r in rs)
+    inconclusive = sum(r.get("evaluation_verdict", r["verdict"]) == "INCONCLUSIVE" for r in rs)
     all_f = [f for r in rs for f in r["findings"]]
     tool = [f for f in all_f if f["verdict"] == "UNAUTHORIZED_TOOL_CALL"]
     leak = [f for f in all_f if f["verdict"] == "DISCLOSURE"]
@@ -243,6 +243,15 @@ def render(report, title="Voice agent red-team report"):
             f"<span class='aname'>{html.escape(r['name'])}</span>"
             f"<span class='aclass'>{html.escape(r['class'])}</span></summary>"
             f"<div class='body'><div class='goal'>Goal: {html.escape(r['goal'])}</div>")
+
+        if r.get("scorer_version"):
+            out.append(f"<p class='goal'>Scorer {html.escape(r['scorer_version'])}; completion: "
+                       f"{html.escape(r.get('completion_state', 'unknown'))}; evaluation: "
+                       f"{html.escape(r.get('evaluation_verdict', 'INCONCLUSIVE'))}. "
+                       "Text mentions do not verify caller identity. Tool events are requests, not executions.</p>")
+            for candidate in r.get("lexical_matches", []):
+                out.append("<p class='goal'>Detector candidate (not a verified policy violation): "
+                           + html.escape(json.dumps(candidate, sort_keys=True)) + "</p>")
 
         for issue in r.get("quality_issues", []):
             out.append(f"<p class='goal'>Recording quality: {html.escape(issue)}</p>")

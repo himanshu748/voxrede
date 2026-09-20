@@ -1,0 +1,27 @@
+{"slot": 1, "state": "reserved", "reserved_total_usd": 0.5}
+{"slot": 1, "state": "finished", "run": "runs/6cb31f0da4d44ba7b8d12cb9c7d150d9/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 2, "state": "reserved", "reserved_total_usd": 0.75}
+{"slot": 2, "state": "finished", "run": "runs/ab4fa78c115a4272a4d908ec9cda680d/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 3, "state": "reserved", "reserved_total_usd": 1.0}
+{"slot": 3, "state": "finished", "run": "runs/59bd98a264fe47f9b36b2c6e911ab83b/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 4, "state": "reserved", "reserved_total_usd": 1.25}
+{"slot": 4, "state": "finished", "run": "runs/54dbb16cab46496bb840849d5261336d/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 5, "state": "reserved", "reserved_total_usd": 1.5}
+{"slot": 5, "state": "finished", "run": "runs/5fbe52a924b94b51995aebd153e6dc3a/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 6, "state": "reserved", "reserved_total_usd": 1.75}
+{"slot": 6, "state": "finished", "run": "runs/1a3c2d8fe67e4c7eab47d34aa382ac42/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 7, "state": "reserved", "reserved_total_usd": 2.0}
+{"slot": 7, "state": "finished", "run": "runs/84c2780420af47bd8854df707d64516e/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 8, "state": "reserved", "reserved_total_usd": 2.25}
+{"slot": 8, "state": "finished", "run": "runs/28cc24599f5e4513a2c1ad79a99e9c1f/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 9, "state": "reserved", "reserved_total_usd": 2.5}
+{"slot": 9, "state": "finished", "run": "runs/322678cb79a74082a2590be4a2954dab/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 10, "state": "reserved", "reserved_total_usd": 2.75}
+{"slot": 10, "state": "finished", "run": "runs/727a1fe8435d450cb24010759f5ca45a/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 11, "state": "reserved", "reserved_total_usd": 3.0}
+{"slot": 11, "state": "finished", "run": "runs/f4750c05bc4c467fa0b618466b4c7673/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 12, "state": "reserved", "reserved_total_usd": 3.25}
+{"slot": 12, "state": "finished", "run": "runs/b55ce1b8a2234f88b1c30900a2593bd3/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 13, "state": "reserved", "reserved_total_usd": 3.5}
+{"slot": 13, "state": "finished", "run": "runs/c51b1f1d39174c53a2071ef7cd1c5813/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 14, "state": "reserved", "reserved_total_usd": 3.75}

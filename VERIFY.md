@@ -1,3 +1,5 @@
+> September 20 update: [19 recorded trials](https://himanshu748.github.io/voxrede/evaluation.html), with delivered audio and explicit incomplete outcomes. Web live runs remain disabled. See [current audit status](audit/STATUS.md) for scope and verification; older claims below describe the historical release.
+
 # Verification log
 
 Every claim below was produced by running the thing, not by reading the code.

@@ -1,16 +1,12 @@
-"""Judge-facing server: read the reports, or run one live attack.
-
-Rate limited, and the API key never leaves the process.
-"""
-import asyncio, json, os, threading, time, uuid
+"""Read-only historical report server. Paid execution and private evidence are disabled."""
+import json, os, threading, time
+from html import escape
+from evidence_trial import scenario
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
-from bridge import bridge, load_env
 from report import render
-from run_suite import attacker_config
-from scorer import score
 
 MAX_LIVE_PER_HOUR = int(os.environ.get("VOXREDE_MAX_RUNS", "12"))
 LIVE_SECONDS = int(os.environ.get("VOXREDE_LIVE_SECONDS", "100"))
@@ -29,6 +25,7 @@ def budget_left():
 
 def take_budget():
     with lock:
+        recent[:] = [t for t in recent if time.time() - t < 3600]
         if len(recent) >= MAX_LIVE_PER_HOUR:
             return False
         recent.append(time.time())
@@ -36,28 +33,7 @@ def take_budget():
 
 
 def run_live(job_id, attack_id, harden, target_id="meridian"):
-    tpath = Path(f"targets/{target_id}.json")
-    if not tpath.exists():
-        tpath = Path("targets/meridian.json")
-    target = json.loads(tpath.read_text())
-    if harden:
-        from run_suite import GUARD
-        target["agent"]["system_prompt"] += GUARD
-    attack = json.loads(Path(f"attacks/{attack_id}.json").read_text())
-    jobs[job_id] = {"state": "running", "attack": attack["name"]}
-    try:
-        load_env()
-        path = asyncio.run(bridge(attacker_config(attack), target["agent"],
-                                  seconds=LIVE_SECONDS, run_id=f"live_{job_id}"))
-        r = score(path, target)
-        wav = Path(path).with_suffix(".wav")
-        r.update({"attack": attack["id"], "name": attack["name"],
-                  "class": attack["class"], "goal": attack["goal"],
-                  "wav": str(wav) if wav.exists() else None})
-        jobs[job_id] = {"state": "done", "result": r, "hardened": harden,
-                        "target": target["id"]}
-    except Exception as e:
-        jobs[job_id] = {"state": "error", "error": f"{type(e).__name__}: {e}"}
+    raise PermissionError("Web live runs are disabled pending authenticated budgeted access review")
 
 
 INDEX = """<title>Voxrede</title><style>%s
@@ -92,19 +68,18 @@ button:disabled{opacity:.5;cursor:default}
 </style><div class='wrap'>
 <h1>Voxrede</h1>
 <div class='sub'>A voice agent that calls your voice agent and attacks it.
-Every verdict traces to a logged event.</div>
+Every verdict traces to a logged event. Historical reports retain their original scorer results; completion and caller authentication are unverified.</div>
 <div class='tabs'>%s</div>
 <div class='live'>
-<b>Run one live attack now</b>
-<div class='sub' style='margin:6px 0 12px;font-size:13px'>Places a real call
-between two AssemblyAI Voice Agent sessions. Takes about %d seconds.
-%d runs left this hour.</div>
+<b>Offline evidence review</b>
+<div class='sub' style='margin:6px 0 12px;font-size:13px'>Live sessions require separate operator approval. Configured duration: %d seconds;
+legacy hourly limit: %d. This server cannot spend provider credits.</div>
 <div class='controls'>
-<select id='a'>%s</select>
-<select id='tg'>%s</select>
-<select id='h'><option value='0'>as written</option>
+<select id='a' disabled>%s</select>
+<select id='tg' disabled>%s</select>
+<select id='h' disabled><option value='0'>as written</option>
 <option value='1'>with guardrail</option></select>
-<button id='go'>Run attack</button></div>
+<button id='go' disabled>Live sessions disabled</button></div>
 <div id='out'></div></div>
 %s</div>
 <script>
@@ -158,12 +133,16 @@ class H(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(b)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(b)
 
     def do_GET(self):
         u = urlparse(self.path)
         q = parse_qs(u.query)
+        if u.path in ("/stream", "/job") or u.path.startswith("/audio/"):
+            return self._send(403, json.dumps({"error": "Private trial evidence is not served"}))
         font_names = {
             'manrope-400.ttf', 'manrope-600.ttf', 'manrope-800.ttf',
             'instrument-serif-italic.ttf',
@@ -173,23 +152,11 @@ class H(BaseHTTPRequestHandler):
             if not font.is_file():
                 return self._send(404, 'font unavailable', 'text/plain')
             return self._send(200, font.read_bytes(), 'font/ttf')
-        if u.path == "/stream":
-            return self._send(200, json.dumps(self.stream_payload(q.get("id", [""])[0])))
-        if u.path == "/job":
-            return self._send(200, json.dumps(self.job_payload(q["id"][0])))
-        if u.path.startswith("/audio/"):
-            name = u.path[len("/audio/"):]
-            if "/" in name or ".." in name or not name.endswith(".wav"):
-                return self._send(400, "bad name", "text/plain")
-            f = Path("runs") / name
-            if not f.exists():
-                return self._send(404, "no audio", "text/plain")
-            return self._send(200, f.read_bytes(), "audio/wav")
         if u.path != "/":
             return self._send(404, "not found", "text/plain")
         TABS = [("base", "Baseline"),
                 ("lax", "No verification step"),
-                ("hardened", "After the fix"),
+                ("hardened", "Historical follow-up"),
                 ("noisecheck", "Degraded line")]
         view = q.get("view", ["base"])[0]
         available = [(t, lbl) for t, lbl in TABS
@@ -204,76 +171,22 @@ class H(BaseHTTPRequestHandler):
                        title="Suite report") if p.exists()
                 else "<div class='sub'>No report yet. Run the suite.</div>")
         opts = "".join(
-            f"<option value='{j['id']}'>{j['name']}</option>"
+            f"<option value='{escape(j['id'], quote=True)}'>{escape(j['name'])}</option>"
             for j in (json.loads(f.read_text()) for f in sorted(Path("attacks").glob("*.json"))))
         topts = "".join(
-            f"<option value='{j['id']}'>{j['name']}</option>"
+            f"<option value='{escape(j['id'], quote=True)}'>{escape(j['name'])}</option>"
             for j in (json.loads(f.read_text()) for f in sorted(Path("targets").glob("*.json"))))
         from report import CSS
         self._send(200, INDEX % (CSS, tabs_html, LIVE_SECONDS,
                                  budget_left(), opts, topts, body),
                    "text/html; charset=utf-8")
 
-    def stream_payload(self, jid):
-        """Turns logged so far, so a judge watches the call instead of a spinner."""
-        if "/" in jid or ".." in jid:
-            return {"turns": []}
-        f = Path("runs") / f"live_{jid}.jsonl"
-        if not f.exists():
-            return {"turns": []}
-        turns = []
-        for line in f.read_text().splitlines():
-            if not line.strip():
-                continue
-            try:
-                rec = json.loads(line)
-            except ValueError:
-                continue
-            if rec.get("side") != "target":
-                continue
-            ev = rec["event"]
-            k = ev.get("type")
-            if k == "transcript.user":
-                turns.append({"t": rec["t"], "who": "caller", "text": ev.get("text", "")})
-            elif k == "transcript.agent":
-                turns.append({"t": rec["t"], "who": "agent", "text": ev.get("text", "")})
-            elif k == "tool.call":
-                turns.append({"t": rec["t"], "who": "tool",
-                              "text": f"{ev.get('name')}({json.dumps(ev.get('arguments'))})"})
-        return {"turns": turns}
-
-    def job_payload(self, jid):
-        j = jobs.get(jid, {"state": "unknown"})
-        if j.get("state") == "done":
-            r = j["result"]
-            html = render({"target": j.get("target", "meridian"),
-                           "hardened": j["hardened"],
-                           "results": [r]}, title="Live attack")
-            return {"state": "done", "html": html}
-        return j
-
     def do_POST(self):
-        u = urlparse(self.path)
-        q = parse_qs(u.query)
-        if u.path != "/run":
-            return self._send(404, json.dumps({"error": "not found"}))
-        attack = q.get("attack", ["01_authority"])[0]
-        if not Path(f"attacks/{attack}.json").exists():
-            return self._send(400, json.dumps({"error": "unknown attack"}))
-        if not take_budget():
-            return self._send(429, json.dumps(
-                {"error": "hourly limit reached, the pre-run reports below are live"}))
-        jid = uuid.uuid4().hex[:8]
-        harden = q.get("harden", ["0"])[0] == "1"
-        target_id = q.get("target", ["meridian"])[0]
-        if "/" in target_id or ".." in target_id:
-            return self._send(400, json.dumps({"error": "bad target"}))
-        threading.Thread(target=run_live, args=(jid, attack, harden, target_id),
-                         daemon=True).start()
-        self._send(200, json.dumps({"id": jid}))
+        return self._send(403, json.dumps({"error": "Live sessions disabled; use the approval-gated local CLI"}))
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8080"))
-    print(f"voxrede on http://0.0.0.0:{port}")
-    ThreadingHTTPServer(("0.0.0.0", port), H).serve_forever()
+    host = os.environ.get("VOXREDE_HOST", "127.0.0.1")
+    print(f"voxrede offline review on http://{host}:{port}")
+    ThreadingHTTPServer((host, port), H).serve_forever()

@@ -29,7 +29,7 @@ font-size:13px}
 <div class="note">%s</div>"""
 
 LIVE_NOTE = ("Archived report viewer. Tool execution was mocked. "
-             "Call audio and live attack runs need the server running locally, "
+             "New delivered-audio evidence is on the recorded evaluation page. Paid web runs are disabled; "
              "see the repo README.")
 
 
@@ -82,6 +82,10 @@ def build(source_dir=Path("."), out_dir=None):
     else:
         (out / "watch.html").unlink(missing_ok=True)
     print(f"wrote {out / 'overview.html'}, findings.html, deck.html")
+    if (source / "evaluation.html").is_file():
+        (out / "evaluation.html").write_text(local_overview_links((source / "evaluation.html").read_text()))
+        (out / "evidence").mkdir(exist_ok=True)
+        shutil.copy(source / "evidence/evaluation_current.json", out / "evidence/evaluation_current.json")
     return out
 
 

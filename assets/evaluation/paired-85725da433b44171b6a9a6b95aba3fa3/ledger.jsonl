@@ -1,0 +1,4 @@
+{"slot": 1, "state": "reserved", "reserved_total_usd": 4.15}
+{"slot": 1, "state": "finished", "run": "runs/2d71a46ea66c4fa2892af4b234b7d459/events.jsonl", "evaluation_verdict": "PASS"}
+{"slot": 2, "state": "reserved", "reserved_total_usd": 4.550000000000001}
+{"slot": 2, "state": "finished", "run": "runs/a8d47acc04b647d18df2436ce2eaca0c/events.jsonl", "evaluation_verdict": "INCONCLUSIVE"}
