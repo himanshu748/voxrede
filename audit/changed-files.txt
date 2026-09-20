@@ -6,6 +6,9 @@ Dockerfile
 README.md
 SUBMISSION.md
 VERIFY.md
+assets/evaluation/excerpts/0970ea18fb0746df92b1ef016d813c44-event-5655.wav
+assets/evaluation/excerpts/2d71a46ea66c4fa2892af4b234b7d459-event-8854.wav
+assets/evaluation/excerpts/7d3885492ded47b789b4885ade269e78-event-3901.wav
 assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/1a3c2d8fe67e4c7eab47d34aa382ac42/attacker.delivered.flac
 assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/1a3c2d8fe67e4c7eab47d34aa382ac42/attacker.delivered.mp3
 assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/1a3c2d8fe67e4c7eab47d34aa382ac42/events.jsonl
@@ -135,6 +138,7 @@ assets/evaluation/preflight-cbb79412/summary.json
 assets/submission/voxrede-deck.pdf
 audit/DEMO_CURRENT.md
 audit/EVALUATION_PLAN.md
+audit/JUDGE_UPGRADE.md
 audit/PROTOCOL.md
 audit/PUBLICATION_RECEIPT.json
 audit/STATUS.md
@@ -142,6 +146,7 @@ audit/SUBMISSION_CURRENT.md
 audit/baseline-reproductions.json
 audit/build_bundle.py
 audit/changed-files.txt
+audit/judge-story-tests.txt
 audit/reproduce_baseline.py
 audit/submission-fields.json
 audit/test-results.txt
@@ -150,14 +155,19 @@ build_page.py
 combined_build.py
 deck.html
 deck_build.py
+evaluation-story.css
+evaluation-story.js
 evaluation.html
 evaluation/deck_pdf.py
+evaluation/make_story.py
 evaluation/playback_audio.py
 evaluation/publish_evidence.py
 evaluation/run_paired.py
 evaluation/smoke.py
 evaluation_build.py
+evaluation_story.py
 evidence/evaluation_current.json
+evidence/judge_story.json
 evidence_trial.py
 findings.html
 index.html
@@ -169,5 +179,7 @@ server.py
 static_build.py
 test_evaluation.py
 test_hardening.py
+test_judge_story.py
 test_scorer.py
+test_static_build.py
 watch.html

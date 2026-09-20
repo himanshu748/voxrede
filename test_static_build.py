@@ -87,6 +87,18 @@ class StaticBuildTests(unittest.TestCase):
         self.assertFalse((self.out / 'watch.html').exists())
         self.assertEqual((self.out / 'design.css').read_text(), ':root { color: olive; }')
 
+    def test_story_assets_are_copied_and_removed_without_stale_links(self):
+        names = ("evaluation-story.css", "evaluation-story.js", "evidence/judge_story.json")
+        for name in names:
+            (self.source / name).write_text("fixture")
+        self.build()
+        for name in names:
+            self.assertEqual((self.out / name).read_text(), "fixture")
+            (self.source / name).unlink()
+        self.build()
+        for name in names:
+            self.assertFalse((self.out / name).exists())
+
     def test_import_does_not_build(self):
         module_dir = str(Path(static_build.__file__).resolve().parent)
         code = f'import sys; sys.path.insert(0, {module_dir!r}); import static_build'

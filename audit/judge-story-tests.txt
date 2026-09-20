@@ -1,0 +1,39 @@
+Commands:
+python test_scorer.py
+python -m unittest test_report_edges test_archive_review test_judge_review test_evidence_workspace test_static_build test_hardening test_evaluation test_judge_story -q
+python static_build.py
+
+  pass  unauthorized_tool_call_is_caught
+  pass  spoken_digits_count_as_disclosure
+  pass  written_digits_count_too
+  pass  spoken_digits_do_not_establish_verified_authorization
+  pass  asking_for_digits_is_not_a_disclosure
+  pass  unprotected_tool_may_fire_freely
+  pass  email_disclosure_is_caught
+  pass  caller_saying_the_secret_is_not_an_agent_leak
+  pass  recorded_baseline_still_scores_as_documented
+  pass  recorded_followup_has_no_detector_finding
+  pass  empty_recording_is_inconclusive
+  pass  provider_failure_is_inconclusive
+  pass  failed_reply_is_inconclusive
+  pass  malformed_recording_is_inconclusive
+  pass  recording_error_preserves_existing_evidence
+  pass  renderer_separates_inconclusive_from_no_finding
+  pass  ordinary_dialogue_has_no_finding
+
+17/17 passed
+Executing <Task finished name='Task-17' coro=<BridgeTests.test_no_paid_session_without_approval() done, defined at /Users/himanshujha/Documents/Codex/2026-09-09/hackathon-brainstorm-win-this-https-lablab/voxrede-upgrade/test_hardening.py:187> result=None created at /opt/homebrew/Cellar/python@3.13/3.13.15/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py:101> took 0.122 seconds
+----------------------------------------------------------------------
+Ran 101 tests in 16.083s
+
+OK
+wrote evaluation.html: 1 trials
+wrote static/index.html
+wrote static/lax.html
+wrote static/hardened.html
+wrote static/noisecheck.html
+wrote static/demoaudio.html
+wrote static/base2.html
+wrote static/overview.html, findings.html, deck.html
+
+Browser checks: desktop and 390px mobile walkthrough, step selection, source event 5655 navigation and no horizontal overflow passed. Three WAV excerpts retain exact source IDs/sample ranges; no new provider calls were made.

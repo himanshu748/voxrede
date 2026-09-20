@@ -19,3 +19,5 @@ tmp/
 
 # Reviewed playback derivatives accompany public lossless evidence.
 !assets/evaluation/**/*.mp3
+
+!assets/evaluation/excerpts/*.wav

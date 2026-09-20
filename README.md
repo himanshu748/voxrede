@@ -2,6 +2,8 @@
 
 # Voxrede
 
+[Start the recorded failure → retest walkthrough](https://himanshu748.github.io/voxrede/evaluation.html#walkthrough). Three short, unmodified audio excerpts connect the misleading mock-lookup claim to later responses and their source events.
+
 [![ci](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml/badge.svg)](https://github.com/himanshu748/voxrede/actions/workflows/ci.yml)
 
 Voxrede is a voice-agent red-teaming project: challenge a declared policy,

@@ -86,6 +86,12 @@ def build(source_dir=Path("."), out_dir=None):
         (out / "evaluation.html").write_text(local_overview_links((source / "evaluation.html").read_text()))
         (out / "evidence").mkdir(exist_ok=True)
         shutil.copy(source / "evidence/evaluation_current.json", out / "evidence/evaluation_current.json")
+    for name in ("evaluation-story.css", "evaluation-story.js", "evidence/judge_story.json"):
+        if (source / name).is_file():
+            (out / name).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(source / name, out / name)
+        else:
+            (out / name).unlink(missing_ok=True)
     return out
 
 
