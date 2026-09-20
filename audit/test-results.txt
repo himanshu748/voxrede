@@ -31,3 +31,5 @@ OK
 wrote evaluation.html: 1 trials
 
 Additional checks: five baseline defects reproduced; all five site builders exited 0; PDF built and all nine slides visually reviewed; 19 public source hashes/review anchors and 38 decoded FLAC-to-PCM hashes verified; recursive credential-field scan passed; mobile width 390 had no horizontal overflow; source event 3901 opened and was visible; git diff --check passed.
+
+Publication follow-up: 38 MP3 listening derivatives hashed; lossless sources unchanged. Four evaluation tests passed again with playback-source and lossless-download assertions. Hosted FLAC playback advanced to 28 seconds in Safari (duration 1:15). Codex in-app media playback crashed for FLAC and MP3; this limitation is documented.

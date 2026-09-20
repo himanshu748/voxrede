@@ -28,7 +28,7 @@ class EvaluationTests(unittest.TestCase):
 
     def test_public_page_keeps_missing_pair_and_escapes_transcript(self):
         row={'attack':'a','repeat':1,'hardened':False,'trial_id':'uuid','class':'legitimate','name':'Fixture','goal':'Explain procedure',
-             'findings':[],'review':{'useful_task':'inconclusive','note':'No answer'},'audio':[],
+             'findings':[],'review':{'useful_task':'inconclusive','note':'No answer'},'audio':[{'label':'Recorded response','starts_at':0,'path':'evidence.flac','playback_path':'listening.mp3'}],
              'source_events':[{'event_index':7,'t':1.2,'event':{'type':'transcript.agent','text':'<script>bad</script>'}}],
              'observations':{},'completion_state':'incomplete_or_unknown','evaluation_verdict':'INCONCLUSIVE',
              'run':'assets/evaluation/log.jsonl','manifest':'assets/evaluation/manifest.json'}
@@ -43,6 +43,8 @@ class EvaluationTests(unittest.TestCase):
                 self.assertIn('trial-uuid-event-7',page)
                 self.assertIn('&lt;script&gt;',page)
                 self.assertNotIn('<script>bad',page)
+                self.assertIn('src="listening.mp3"',page)
+                self.assertIn('href="evidence.flac" download',page)
             finally:os.chdir(cwd)
 
 if __name__=='__main__':unittest.main()

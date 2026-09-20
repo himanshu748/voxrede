@@ -19,7 +19,7 @@ def build():
                 delivery = rec.get('reply_audio')
                 delivery_note = f' Audio bytes sent to peer: {delivery["sent_bytes"]}/{delivery["generated_bytes"]} generated.' if delivery else ''
                 events.append(f'<li id="{ident}-event-{rec["event_index"]}"><a href="#{ident}-event-{rec["event_index"]}">{rec["t"]:.3f}s · source event {rec["event_index"]}</a><strong>{E(ev["type"])}</strong><p>{E(text)}</p><small>{E(delivery_note)}</small></li>')
-            audios=''.join(f'<label>{E(a["label"])}<small>Track begins at event time {a["starts_at"]:.3f}s. Lossless stream-order audio; scheduling gaps remain in source timestamps.</small><audio controls preload="none" src="{E(a["path"])}"></audio></label>' for a in row['audio'])
+            audios=''.join(f'<label>{E(a["label"])}<small>Track begins at event time {a["starts_at"]:.3f}s. Stream-order listening copy; scheduling gaps remain in source timestamps.</small><audio controls preload="none" src="{E(a.get("playback_path",a["path"]))}"></audio><a href="{E(a["path"])}" download>Download lossless FLAC evidence</a></label>' for a in row['audio'])
             condition=row['observations'];condition_text=f'Post-greeting delivered reply interrupted: {condition.get("post_greeting_delivered_reply_interrupted", False)}. Noise delivered during speech: {condition.get("degraded_speech_delivered", False)}. These signals do not prove an interruption occurred during a refusal.'
             reviewlinks=' '.join(f'<a href="#{ident}-event-{i}">Review source event {i}</a>' for i in review.get('source_events',[]))
             cards.append(f'''<article id="{ident}"><p class="eyebrow">{E(mode)} · repetition {repeat}</p><h3>{findings} detector finding{'s' if findings!=1 else ''}</h3>

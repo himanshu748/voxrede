@@ -16,3 +16,6 @@ static/
 
 output/
 tmp/
+
+# Reviewed playback derivatives accompany public lossless evidence.
+!assets/evaluation/**/*.mp3

@@ -75,3 +75,7 @@ Multiple entries have not been confirmed as permitted by this event's published 
 Released the evidence-workspace upgrade as `cacb2f5` to `main` and `upgrade/evidence-workspace`. GitHub Pages reported a successful build for that exact commit. The public viewer opened the disclosure at event 7. Lablab displayed “Submission Updated!” and confirmed that the AssemblyAI Voice Agent Hackathon submission had been updated successfully. The public entry was reopened and verified with the new workspace description, video-layout note, and existing demo, repository, and PDF links.
 
 The short description, long description, and additional information above match the saved update. The original video, cover, and deck remain attached. The release retains the same archived evidence; 77 offline checks passed. Browser download-save confirmation remains unverified.
+
+## September 20 publication receipt
+
+The public entry now uses the recorded evaluation URL, current description and refreshed PDF. Lablab confirmed the update, and the public PDF was hash-verified. See audit/PUBLICATION_RECEIPT.json and audit/SUBMISSION_CURRENT.md.

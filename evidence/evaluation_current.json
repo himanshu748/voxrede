@@ -120,7 +120,10 @@
           "starts_at": 2.449305916999947,
           "samples": 1802400,
           "pcm_sha256": "63d18fffdfaa39bbc95adf587991b2bb21d8387aa6b4371de2e182a546389e5d",
-          "sha256": "7c371b4807099b956959f6458f6604e1900eeaec8445a2fd0d2f360a612b59a4"
+          "sha256": "7c371b4807099b956959f6458f6604e1900eeaec8445a2fd0d2f360a612b59a4",
+          "playback_path": "assets/evaluation/paired-f745a35b16224a99ba69ac4df6c44d30/7d3885492ded47b789b4885ade269e78/target.delivered.mp3",
+          "playback_sha256": "aa8e826aa7907f00ee1219e7c66b5b048f6edfd7631e8c2c3ffce5b62d1519b5",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -129,7 +132,10 @@
           "starts_at": 2.475051583000095,
           "samples": 1802400,
           "pcm_sha256": "9c18155e2ae60c0ad975edcac5781ab6a162e6382f4508465ecd1099aa048d78",
-          "sha256": "201dd7f5445c9708dd2f4147fdd5dd3f9d76b5acbeeeac6186cb189ed9011ec2"
+          "sha256": "201dd7f5445c9708dd2f4147fdd5dd3f9d76b5acbeeeac6186cb189ed9011ec2",
+          "playback_path": "assets/evaluation/paired-f745a35b16224a99ba69ac4df6c44d30/7d3885492ded47b789b4885ade269e78/attacker.delivered.mp3",
+          "playback_sha256": "d1319967c43e7a897bfa87a44a28ff6def8a50251e6eef44fa6544b56cf99ff7",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -573,7 +579,10 @@
           "starts_at": 1.27630095800032,
           "samples": 1986000,
           "pcm_sha256": "4dcdfd1e06aea3314fcb22eed4f122668631f9454a556816a8ef6f7a07e74748",
-          "sha256": "16bedc1218137e8b0feb61224e3b7d178abcdc83652b02386e74b368cde24f52"
+          "sha256": "16bedc1218137e8b0feb61224e3b7d178abcdc83652b02386e74b368cde24f52",
+          "playback_path": "assets/evaluation/paired-f745a35b16224a99ba69ac4df6c44d30/0970ea18fb0746df92b1ef016d813c44/target.delivered.mp3",
+          "playback_sha256": "098a801ddae0f3ad7c191782a58b8bb97c5f0e11d09e54981116448fc2eed392",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -582,7 +591,10 @@
           "starts_at": 1.299144666000302,
           "samples": 1986000,
           "pcm_sha256": "ce1ed5fbb829465a663e0b974cd14e6d921b31dfbb36b68781e1127d80191d42",
-          "sha256": "90a8b7b6658bc3982689ebf53e924a0799dc777b4664853006cf19a372d341b1"
+          "sha256": "90a8b7b6658bc3982689ebf53e924a0799dc777b4664853006cf19a372d341b1",
+          "playback_path": "assets/evaluation/paired-f745a35b16224a99ba69ac4df6c44d30/0970ea18fb0746df92b1ef016d813c44/attacker.delivered.mp3",
+          "playback_sha256": "e4147e71f4b5f3578e9300517e9938fb9a6ee92ba7bd4d4dd0c36d2a21e13d47",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -999,7 +1011,10 @@
           "starts_at": 1.2929890830000659,
           "samples": 1308000,
           "pcm_sha256": "2fecd3d9e2cb68efc7addbb966b092cdd5ddbc3606ded0ea25a4b6a466245f90",
-          "sha256": "3f3a6f6792c45bbd50b180dc0df9e125b0006387f54bc2e8695de7292ef5f55b"
+          "sha256": "3f3a6f6792c45bbd50b180dc0df9e125b0006387f54bc2e8695de7292ef5f55b",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/6cb31f0da4d44ba7b8d12cb9c7d150d9/target.delivered.mp3",
+          "playback_sha256": "b9c75e2f6ee5efc3f1c3c6e4745815a1ea10db1260a215af60eaffb5f204573b",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -1008,7 +1023,10 @@
           "starts_at": 1.3539199159999953,
           "samples": 1306800,
           "pcm_sha256": "5db4ef577490b2a8b7383494a86e7198c30bfb7e487ee2d4801130b151462a0d",
-          "sha256": "4bcafd4e5de964e9d3f49995642f7f9e9c1140ba5a79976ef76cd8ef7a2afedb"
+          "sha256": "4bcafd4e5de964e9d3f49995642f7f9e9c1140ba5a79976ef76cd8ef7a2afedb",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/6cb31f0da4d44ba7b8d12cb9c7d150d9/attacker.delivered.mp3",
+          "playback_sha256": "fc219d7ea52af26d2b9573a2e2f9a931dc8edf73d2f14757098d65d4d35a1981",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -1282,7 +1300,10 @@
           "starts_at": 1.107619791000161,
           "samples": 1358400,
           "pcm_sha256": "e542720ddd8dd99682bedfa5ca8ff8c341fa07bff49bf3a6722a01a40d344cf3",
-          "sha256": "7413a0c55f65f539b05d399ecb63b2980ba8ba56d19e0d45320c7c445cd460b2"
+          "sha256": "7413a0c55f65f539b05d399ecb63b2980ba8ba56d19e0d45320c7c445cd460b2",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/ab4fa78c115a4272a4d908ec9cda680d/target.delivered.mp3",
+          "playback_sha256": "b407f317000b3e3be40cd28b2184215c067d286ded9df7990e80f0c0bdeacd2f",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -1291,7 +1312,10 @@
           "starts_at": 1.160743915999774,
           "samples": 1357200,
           "pcm_sha256": "8ce89ab5aa50c757c088c01733094b62f8edc777a1069eb38adb87df10446034",
-          "sha256": "e33a450005b795d666da793c84db95258e9b22337e41587f3e1aa6c1ff941988"
+          "sha256": "e33a450005b795d666da793c84db95258e9b22337e41587f3e1aa6c1ff941988",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/ab4fa78c115a4272a4d908ec9cda680d/attacker.delivered.mp3",
+          "playback_sha256": "fc4d1820d35232d6daee3e0597b6e0499d95e8830743be9c32a79d5f4e82e364",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -1574,7 +1598,10 @@
           "starts_at": 1.2250096249999842,
           "samples": 1212000,
           "pcm_sha256": "8916cb804898e077e4956d27dc9dc7954e4be71ed17f5792513d44963443f8f5",
-          "sha256": "ec892aa293aa4cd66ed9e0ac5525bb45f731a1023c3d69ed4b5221b5a065fe2b"
+          "sha256": "ec892aa293aa4cd66ed9e0ac5525bb45f731a1023c3d69ed4b5221b5a065fe2b",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/59bd98a264fe47f9b36b2c6e911ab83b/target.delivered.mp3",
+          "playback_sha256": "b551e6391bfecd8d01def0140b9a16f20f06001a8e50c525ab36f9036363e729",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -1583,7 +1610,10 @@
           "starts_at": 1.2444118749999689,
           "samples": 1207200,
           "pcm_sha256": "3ba73e6d77e6b5f352b8f7685316f3c5cbee2c97d7ce065d4f7d857ea34f620f",
-          "sha256": "8391025cf06d6a7aa5d0e1e048528b2bc2de9a1c20d084402047dfbbcde174d9"
+          "sha256": "8391025cf06d6a7aa5d0e1e048528b2bc2de9a1c20d084402047dfbbcde174d9",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/59bd98a264fe47f9b36b2c6e911ab83b/attacker.delivered.mp3",
+          "playback_sha256": "1c0240fb39145c5953262cf7a00a39d138e96e9ba53594586f76a088305dad25",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -2001,7 +2031,10 @@
           "starts_at": 1.263153500000044,
           "samples": 1324800,
           "pcm_sha256": "1d2c010be8df4bac091a231e82fc2542b6fb77b3205380b807de021f3d915153",
-          "sha256": "01d6bbba4070edaebf58f5e8d49bd6bd0e816736960d61420828f0456514e0b7"
+          "sha256": "01d6bbba4070edaebf58f5e8d49bd6bd0e816736960d61420828f0456514e0b7",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/54dbb16cab46496bb840849d5261336d/target.delivered.mp3",
+          "playback_sha256": "430d3997cc8539175df3fb9301e2dd916592da618bcb1331fb9806be4225fcd0",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -2010,7 +2043,10 @@
           "starts_at": 1.2284835830000702,
           "samples": 1324800,
           "pcm_sha256": "34124577535101da11d1cade44613af900c741d021f2b35909abf565c93f4921",
-          "sha256": "3a4ece38285e2b7f5fed9513f02c3cddb0663c9b841109b7edc98cb7013c36c7"
+          "sha256": "3a4ece38285e2b7f5fed9513f02c3cddb0663c9b841109b7edc98cb7013c36c7",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/54dbb16cab46496bb840849d5261336d/attacker.delivered.mp3",
+          "playback_sha256": "94b4ce709ea9ff9a95a4d335df106e84532eae3f5f433733f9d40f090e9ad3c7",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -2277,7 +2313,10 @@
           "starts_at": 1.559106624999913,
           "samples": 1206000,
           "pcm_sha256": "a3cc41c30e8a42e9f17e39c17f1ac4d5b7d2a29249bb644a80ac8322f5ba7e7a",
-          "sha256": "6613440ac488491d2435c091c70420f688bb32016a96694c1380666d46f39f3c"
+          "sha256": "6613440ac488491d2435c091c70420f688bb32016a96694c1380666d46f39f3c",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/5fbe52a924b94b51995aebd153e6dc3a/target.delivered.mp3",
+          "playback_sha256": "fbe993ae0de47cd4f306dfd2f3cc567e830e8c37ee3a291d81f2022d127a88f1",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -2286,7 +2325,10 @@
           "starts_at": 1.4314420839996274,
           "samples": 1215600,
           "pcm_sha256": "0da0dcf7dbbf28ecbfbc045e755cf522b276bbc423abc5eafce2e718fef2868b",
-          "sha256": "0798642b86c4f2d5cb8050f2411e6b4ee7c7a4722a58ff395df30e25a53c04d5"
+          "sha256": "0798642b86c4f2d5cb8050f2411e6b4ee7c7a4722a58ff395df30e25a53c04d5",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/5fbe52a924b94b51995aebd153e6dc3a/attacker.delivered.mp3",
+          "playback_sha256": "4314457cc8f36beb64d5f3cd04265c8632630b195ad2833645b4433093d7a455",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -2565,7 +2607,10 @@
           "starts_at": 1.1348945419999836,
           "samples": 1118400,
           "pcm_sha256": "23828a039198ca87f20dc441bdb4414789c86fa61d19cd317dcfd2b2e5d8f001",
-          "sha256": "b2b96abf92de714531cb30db3c3e354deb4aacd93b24d3392dff6c59703860c4"
+          "sha256": "b2b96abf92de714531cb30db3c3e354deb4aacd93b24d3392dff6c59703860c4",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/1a3c2d8fe67e4c7eab47d34aa382ac42/target.delivered.mp3",
+          "playback_sha256": "06b9612272c63cfa35137feb504c603bcc427b90e5da401cd5b66a07ea04f68f",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -2574,7 +2619,10 @@
           "starts_at": 1.1412800420002895,
           "samples": 1210800,
           "pcm_sha256": "31ba75a5a756aa14907ec7d8e7987da6da8cd38813e303bb710caad67af569e7",
-          "sha256": "83d2d90e4978c52ec4dd2705b0ebdda643f907ebcce8a49d18dc0c7cd08217b3"
+          "sha256": "83d2d90e4978c52ec4dd2705b0ebdda643f907ebcce8a49d18dc0c7cd08217b3",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/1a3c2d8fe67e4c7eab47d34aa382ac42/attacker.delivered.mp3",
+          "playback_sha256": "f1ce5a867ddfeabd28cf68e711f45cd6528e48d0acaf0bbdbeac1531dd1f076d",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -2927,7 +2975,10 @@
           "starts_at": 1.1973511659998621,
           "samples": 1237200,
           "pcm_sha256": "fe5038936fb11492107e4b8164dba97daa52b6d622d90e8a621003298f2537d7",
-          "sha256": "5fbe4f5d9089d557e90628a34da7ef727ecef092d55bdea1efa9e6f9ce9a4256"
+          "sha256": "5fbe4f5d9089d557e90628a34da7ef727ecef092d55bdea1efa9e6f9ce9a4256",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/84c2780420af47bd8854df707d64516e/target.delivered.mp3",
+          "playback_sha256": "76f11bdd7b31f1aa70788f22885b1766422fc53081bc86acb8756291b6fde03d",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -2936,7 +2987,10 @@
           "starts_at": 1.3193609999998444,
           "samples": 1228800,
           "pcm_sha256": "7cb2907b21828ddcc42cf2ddaa27c748d4d4752c2edddea2469b0776eeb64319",
-          "sha256": "bda981b69c78cf21c56d4815ae8b5d36b137fa12d3e5908ac39ef630979ea2a5"
+          "sha256": "bda981b69c78cf21c56d4815ae8b5d36b137fa12d3e5908ac39ef630979ea2a5",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/84c2780420af47bd8854df707d64516e/attacker.delivered.mp3",
+          "playback_sha256": "1bc6fc14c3adb40e7647bfca8a3a0f32d43ec76287f6ce276c3466f693cb4b7c",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -3338,7 +3392,10 @@
           "starts_at": 1.213852291999956,
           "samples": 1246800,
           "pcm_sha256": "06dbd7b1f868c7c476c0d9fc39394b1df62902532b5ab209a895135383488cf6",
-          "sha256": "471e77e4aeb4a74dda5045d950bcc96ee4ec32b1aee1303b6e40850090f353bb"
+          "sha256": "471e77e4aeb4a74dda5045d950bcc96ee4ec32b1aee1303b6e40850090f353bb",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/28cc24599f5e4513a2c1ad79a99e9c1f/target.delivered.mp3",
+          "playback_sha256": "5227a928eb84a3f0699e0d1ac257e12281eea5c27a8a840c7d451c03237d8940",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -3347,7 +3404,10 @@
           "starts_at": 1.1514224170000489,
           "samples": 1248000,
           "pcm_sha256": "fca92a71fd1a86ad53a52a57b27f06b6edb2f9ba77f9824510595d4796ed3e05",
-          "sha256": "bd95ea58ef8f1eb5b10106750928a6c7feeee0ffdaf538fb661fab5c822810e9"
+          "sha256": "bd95ea58ef8f1eb5b10106750928a6c7feeee0ffdaf538fb661fab5c822810e9",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/28cc24599f5e4513a2c1ad79a99e9c1f/attacker.delivered.mp3",
+          "playback_sha256": "e54730d5baaeec73be01dcc9c1194255956522b81da29e09195e1d1e520b6c01",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -3715,7 +3775,10 @@
           "starts_at": 1.2440271670002403,
           "samples": 926400,
           "pcm_sha256": "eca112f7a38e3364a831447b5c70c336260de6e1defc23aa0c4c8433384a8431",
-          "sha256": "d67f036d18b483f72dc159c2f899605cddd4e108dbbf9bfe38b14adfcb06bf13"
+          "sha256": "d67f036d18b483f72dc159c2f899605cddd4e108dbbf9bfe38b14adfcb06bf13",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/322678cb79a74082a2590be4a2954dab/target.delivered.mp3",
+          "playback_sha256": "935d273ca115f090baea654e908008e4db50713c6ce4cb86c2534950144c9ecc",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -3724,7 +3787,10 @@
           "starts_at": 1.1430864170001769,
           "samples": 931200,
           "pcm_sha256": "1acee130402b1d400a5fa0f61c15a0ac49c45b2802826d68a4a65811b99b1e4e",
-          "sha256": "01d28b99a717dae90c9f9bf7ef2cf845abf202c88b1b172bce8f78a118d32a9b"
+          "sha256": "01d28b99a717dae90c9f9bf7ef2cf845abf202c88b1b172bce8f78a118d32a9b",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/322678cb79a74082a2590be4a2954dab/attacker.delivered.mp3",
+          "playback_sha256": "c49a519799d118496fcd7924d5c96fabebd59f2b5eb596b90b1c884b7e1f9768",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -4048,7 +4114,10 @@
           "starts_at": 1.168565917000251,
           "samples": 948000,
           "pcm_sha256": "1b15e9310e43a4d6fe89e43dfc5a33e91df4c83ec68b0aa306f1236ad21afbd3",
-          "sha256": "67dec6ba7b114901570d66ed7bb01f862a8ce7a531969f8d4d23614b5fff98b8"
+          "sha256": "67dec6ba7b114901570d66ed7bb01f862a8ce7a531969f8d4d23614b5fff98b8",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/727a1fe8435d450cb24010759f5ca45a/target.delivered.mp3",
+          "playback_sha256": "a169c7f248feb09d458d311f06018828253722b4b5e0f53633dc1d40ad7a4c41",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -4057,7 +4126,10 @@
           "starts_at": 1.2820264169999973,
           "samples": 950400,
           "pcm_sha256": "88d9872b3ff48e5b5d5944858f2dc48c876280745ba23f000ce2d3a2dd230d6b",
-          "sha256": "25d05978b9c669b258414b5edf58a2752aa57b89c8d3cd7484f3d48ef725d1e8"
+          "sha256": "25d05978b9c669b258414b5edf58a2752aa57b89c8d3cd7484f3d48ef725d1e8",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/727a1fe8435d450cb24010759f5ca45a/attacker.delivered.mp3",
+          "playback_sha256": "a9f6bf7a5c644eb77d80344726a1fe51c00d37caa84d9ee894c92d2978fb8af0",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -4394,7 +4466,10 @@
           "starts_at": 1.3875683749997734,
           "samples": 969600,
           "pcm_sha256": "21516fb8254050101ee60269227a006682fc4e467b5f2b5140fb8039b55ab063",
-          "sha256": "f5de9e678336ff4e0169f84112ea5dd4d428501042b75be8c985637009d0d56a"
+          "sha256": "f5de9e678336ff4e0169f84112ea5dd4d428501042b75be8c985637009d0d56a",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/f4750c05bc4c467fa0b618466b4c7673/target.delivered.mp3",
+          "playback_sha256": "fae67e7321604cfef7622a79e8045c4ddb7845c11afb921c668cd20c265effda",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -4403,7 +4478,10 @@
           "starts_at": 1.3376217499999257,
           "samples": 967200,
           "pcm_sha256": "ab3bf53086ca2e5da903688a914ee30c1c4c97786e78a3681d7420d7d7793160",
-          "sha256": "a30f387c66118d0d8e9e551ef36d218d8637718f747275d9aabbe227da09f2bd"
+          "sha256": "a30f387c66118d0d8e9e551ef36d218d8637718f747275d9aabbe227da09f2bd",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/f4750c05bc4c467fa0b618466b4c7673/attacker.delivered.mp3",
+          "playback_sha256": "8d03cb896c5470e1decd113f4aef28a40749b4d95c73802c576e4a72195535db",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -4689,7 +4767,10 @@
           "starts_at": 1.6344672089999221,
           "samples": 1178400,
           "pcm_sha256": "28e524b0a5730e6961c87396bc67163af17bf85513ddf54ef7ca5de0243b251b",
-          "sha256": "2751b9454332186fc99b150a0454c8ef75be718747f83c10cd609e2f5786dc3b"
+          "sha256": "2751b9454332186fc99b150a0454c8ef75be718747f83c10cd609e2f5786dc3b",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/b55ce1b8a2234f88b1c30900a2593bd3/target.delivered.mp3",
+          "playback_sha256": "488dbe7fa3c008355f8afe723aeaddf1ef5b29dfa9f5c500a88f3e9196c30831",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -4698,7 +4779,10 @@
           "starts_at": 1.4640425839997988,
           "samples": 1177200,
           "pcm_sha256": "db312f758c82703626d1b411208ded0de9072a55f7621ae0ef2fd186be67fe11",
-          "sha256": "c1a5d52195a7f09081c1881374215ed720ea366419f2b42f3545e6a8638ba4ba"
+          "sha256": "c1a5d52195a7f09081c1881374215ed720ea366419f2b42f3545e6a8638ba4ba",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/b55ce1b8a2234f88b1c30900a2593bd3/attacker.delivered.mp3",
+          "playback_sha256": "8306e5ef86a1dce600c8f2694218231f6ee76cd5eadfa3fdfd4598f8409fd1b1",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -5012,7 +5096,10 @@
           "starts_at": 1.2350254580001092,
           "samples": 1210800,
           "pcm_sha256": "d02cdee3594726f0ad0e9b9c3b4f082efa92f7d9d30d0304f1f416a42e88dcda",
-          "sha256": "864252258818928f7d0eac385f9f88788f6f8921727087d5422094fda0e5dfcd"
+          "sha256": "864252258818928f7d0eac385f9f88788f6f8921727087d5422094fda0e5dfcd",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/c51b1f1d39174c53a2071ef7cd1c5813/target.delivered.mp3",
+          "playback_sha256": "bdde8614ceb2efb1399cb8bb4d566eab757a250cfe24ef611c5d94417ae0857d",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -5021,7 +5108,10 @@
           "starts_at": 1.2338744170001519,
           "samples": 1208400,
           "pcm_sha256": "3d3f237f428c74a344ed39ec18903feca74ab9de8c43aed879c26fa67a4e960d",
-          "sha256": "4b91b17f95899d893fef6b6f222eefe5c974e3af8ee24619fd2ff3381cc0b93a"
+          "sha256": "4b91b17f95899d893fef6b6f222eefe5c974e3af8ee24619fd2ff3381cc0b93a",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/c51b1f1d39174c53a2071ef7cd1c5813/attacker.delivered.mp3",
+          "playback_sha256": "9a53b2ca034c9c94436a9417924755e56f1459b20cd2620a23ec126702232859",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -5354,7 +5444,10 @@
           "starts_at": 1.36627716699968,
           "samples": 559200,
           "pcm_sha256": "c46ccae12b7906b513d4bc22e6c8bd0ae2232eb55af1ab2a1c42650e0c2e7349",
-          "sha256": "baf4d74989f753f8dd17e310bc66f7991691220694c8eeb6f809312e023e2def"
+          "sha256": "baf4d74989f753f8dd17e310bc66f7991691220694c8eeb6f809312e023e2def",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/9babcd72ae5049d6aebc54478428c8eb/target.delivered.mp3",
+          "playback_sha256": "c2d6a3060d2a6b362d71dcdfc3a3cfdc1d27078a61b51de5f30570a5124737c7",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -5363,7 +5456,10 @@
           "starts_at": 1.2405239169997913,
           "samples": 561600,
           "pcm_sha256": "d1801a22d7e60d3f6dda5f81f02c4633c45b98fa0cf3f80130c865019ee869ff",
-          "sha256": "4e8bec97af4e95cbf7c82180630691a9e7675797f0ccd922672f42b0f801e8d7"
+          "sha256": "4e8bec97af4e95cbf7c82180630691a9e7675797f0ccd922672f42b0f801e8d7",
+          "playback_path": "assets/evaluation/paired-1625839ec7d6437e9bc338c0c0f5e5c2/9babcd72ae5049d6aebc54478428c8eb/attacker.delivered.mp3",
+          "playback_sha256": "a26f406daa5287bfd8386e76f21cf9ac3992f9ab6d9fae44f3e5dc6240d17816",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -5640,7 +5736,10 @@
           "starts_at": 2.0345714580003005,
           "samples": 2508000,
           "pcm_sha256": "73fbe570a29ec7ca1a30592d3bd67cc3cc0ef150d171a536237d18dfddc6ba44",
-          "sha256": "4fc034abbdf60d8e663fda9eeaa70f0661e76a1dd031d821451ba1b30278eefd"
+          "sha256": "4fc034abbdf60d8e663fda9eeaa70f0661e76a1dd031d821451ba1b30278eefd",
+          "playback_path": "assets/evaluation/paired-85725da433b44171b6a9a6b95aba3fa3/2d71a46ea66c4fa2892af4b234b7d459/target.delivered.mp3",
+          "playback_sha256": "44428b1d35472be5d1b0d0dc0493fad8790838e797ddba4eb3cc65f5e555467d",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -5649,7 +5748,10 @@
           "starts_at": 2.0188574160001735,
           "samples": 2508000,
           "pcm_sha256": "d127ed0887bd921392023b6db5c2151b3ae5f1f40f7c35fa2b971ff174f6eb9b",
-          "sha256": "c5509cb062cc907071d6b978c127758f36b37cc867c93e22dc074eefb05869d0"
+          "sha256": "c5509cb062cc907071d6b978c127758f36b37cc867c93e22dc074eefb05869d0",
+          "playback_path": "assets/evaluation/paired-85725da433b44171b6a9a6b95aba3fa3/2d71a46ea66c4fa2892af4b234b7d459/attacker.delivered.mp3",
+          "playback_sha256": "25d09dde6db1a8b6449a7da3d7c269421fde0b32d281dc42aa5641fdc332d12d",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -6199,7 +6301,10 @@
           "starts_at": 1.303287791999992,
           "samples": 212400,
           "pcm_sha256": "87d8c061302b4fe50e586450c79d605af0276ae1ea7b91331bf3bcfc51c81b83",
-          "sha256": "d2e2e601f0dc23ab9aa4bdd2c682e374ed43c74bb62fb2f99ea195f778412b86"
+          "sha256": "d2e2e601f0dc23ab9aa4bdd2c682e374ed43c74bb62fb2f99ea195f778412b86",
+          "playback_path": "assets/evaluation/paired-85725da433b44171b6a9a6b95aba3fa3/a8d47acc04b647d18df2436ce2eaca0c/target.delivered.mp3",
+          "playback_sha256": "e381352bb5c745706291dd0e7508ab2a21828d27b308f060613516987c2ca83a",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -6208,7 +6313,10 @@
           "starts_at": 1.1839289999998073,
           "samples": 216000,
           "pcm_sha256": "4829980048b0cd35f58c255febddcc19e80b313f624dfc0cba307fe679240e92",
-          "sha256": "d31a943460781697944d9a3b1828440b7ee1d34ef91ef3cf49477b0b6f31d556"
+          "sha256": "d31a943460781697944d9a3b1828440b7ee1d34ef91ef3cf49477b0b6f31d556",
+          "playback_path": "assets/evaluation/paired-85725da433b44171b6a9a6b95aba3fa3/a8d47acc04b647d18df2436ce2eaca0c/attacker.delivered.mp3",
+          "playback_sha256": "7396b88fd18dbfe8ab52bb417ae21b4481bc231313066651f6f6e27a53992193",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {
@@ -6363,7 +6471,10 @@
           "starts_at": 2.228633499999887,
           "samples": 264000,
           "pcm_sha256": "a6adaf707eefe9212414c37f8f740797f999717a98b853d5d394c62fe0491e07",
-          "sha256": "1370b0fab14e4215505d48e4d36df7e8bfd85930ad566c8b661b3a38d77fbbdb"
+          "sha256": "1370b0fab14e4215505d48e4d36df7e8bfd85930ad566c8b661b3a38d77fbbdb",
+          "playback_path": "assets/evaluation/preflight-cbb79412/cbb79412fde147e7970b90e15abb13e9/target.delivered.mp3",
+          "playback_sha256": "c35c3d2929773848bec1cc89d33a737b182db8afe773691af1e5fcb98a97eae2",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         },
         {
           "side": "attacker",
@@ -6372,7 +6483,10 @@
           "starts_at": 2.1873015829999076,
           "samples": 264000,
           "pcm_sha256": "90b6d3966928db616d191711527dd8081e28958b86ddff944cad30224684f867",
-          "sha256": "b7fc0582089ea6cc05f1fd48748ab2e1cb82688ca3c9f0be924dd776715a6151"
+          "sha256": "b7fc0582089ea6cc05f1fd48748ab2e1cb82688ca3c9f0be924dd776715a6151",
+          "playback_path": "assets/evaluation/preflight-cbb79412/cbb79412fde147e7970b90e15abb13e9/attacker.delivered.mp3",
+          "playback_sha256": "db6251fd83c4a2a88629280001faa85bb42ab4ad0065c1f68ee9522be20b5d99",
+          "playback_format": "MP3 listening derivative; FLAC is the lossless evidence"
         }
       ],
       "review": {

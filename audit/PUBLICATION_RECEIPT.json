@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-20",
+  "implementation_commit": "95158bec3ac8ae10cecc76322a38e29afa7d6710",
+  "ci_run": 35487453667,
+  "pages_run": 35487452957,
+  "ci": "success",
+  "pages": "success",
+  "submission": "https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon/voxrede/voxrede",
+  "submission_confirmation": "Submission Updated!",
+  "public_description_verified": true,
+  "demo": "https://himanshu748.github.io/voxrede/evaluation.html",
+  "presentation": "https://storage.googleapis.com/lablab-static-eu/submissions/y06jgl5ofaxk10idsw684ktj/uw1kvt29nhaowqilxa2w1389/presentation/presentation_osrk4esonftf00nc3tzia4k9.pdf",
+  "presentation_sha256": "617545afa849f30f17247a5a9a96c3475a97c60360f0915d21dd33a8844b2471",
+  "presentation_bytes_match": true,
+  "tests": 113,
+  "attempted_trials": 19,
+  "reserved_usd": 5.35,
+  "actual_invoice_checked": false
+}

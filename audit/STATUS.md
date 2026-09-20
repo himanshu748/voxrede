@@ -28,3 +28,9 @@ Run `python test_scorer.py`, then `python -m unittest test_report_edges test_arc
 The published evaluation bundle is `evidence/evaluation_current.json` plus `assets/evaluation/`: every attempted trial has redacted source events, delivered lossless audio and a manifest; every batch retains a plan and attempt ledger. Private original PCM/logs remain in ignored runs directories. The historical 17-sample workspace, exact-event links, search, exports, fixture labels and missing-comparison behavior remain intact.
 
 See `DEMO_CURRENT.md` for the current walkthrough and `SUBMISSION_CURRENT.md` for the submission text. Publication receipt is recorded separately after the remote site and saved submission are verified.
+
+## Publication
+
+The implementation was published as 95158be. GitHub CI and Pages both passed. Lablab displayed "Submission Updated!"; the public description and demo link were verified. The uploaded deck matches the local PDF byte for byte. See PUBLICATION_RECEIPT.json. Browser playback derivatives are separate from unchanged lossless evidence.
+
+Hosted FLAC audio played in Safari (elapsed 28 seconds visible; total 1:15). The Codex in-app browser crashed when starting both FLAC and MP3; playback there remains unverified. MP3 listening derivatives are explicitly separate from the lossless FLAC evidence.
