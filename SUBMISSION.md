@@ -79,3 +79,7 @@ The short description, long description, and additional information above match 
 ## September 20 publication receipt
 
 The public entry now uses the recorded evaluation URL, current description and refreshed PDF. Lablab confirmed the update, and the public PDF was hash-verified. See audit/PUBLICATION_RECEIPT.json and audit/SUBMISSION_CURRENT.md.
+
+## September 25 update
+
+Added the historical digit-leak count to the long description and shortened the audio-excerpt paragraph with approval to fit the 2,000-character limit. Lablab displayed "Submission Updated!" after saving. I reopened the public entry and verified that the new paragraph appeared once after the opening paragraph and that the demo, repository, video and PDF URLs were unchanged.

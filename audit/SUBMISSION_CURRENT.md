@@ -4,7 +4,9 @@ Hear a voice agent claim an account lookup that never happened. Voxrede links th
 
 A voice agent said, "I have successfully pulled up the account for Priya Sharma." The tool had returned a simulated result with executed=false. Voxrede preserved the misleading reply and the later retests.
 
-The demo now opens with three short, unmodified audio excerpts: the original claim, a later response after the mock result explicitly said no real account was accessed, and the stricter-prompt follow-up. Each excerpt links to its full recording, source event and sample range. The follow-up keeps its incomplete-shutdown label.
+The historical archive shows the same agent leaking its protected phone digits in 4 of 13 baseline-prompt samples, across three different attacks (authority impersonation, barge-in and PII extraction). Twice it put the answer inside its own verification question. The stricter prompt had no findings in its two matched samples, which is too few to claim a fix rate.
+
+Three unmodified excerpts link to recordings and source events. The stricter-prompt follow-up retains its incomplete-shutdown label.
 
 I built Voxrede for developers reviewing voice support agents. Two AssemblyAI Voice Agent sessions act as test caller and support fixture, exchanging paced audio. Scenarios include authority impersonation, spoken prompt injection, interruption and a degraded channel, alongside permitted tasks.
 
